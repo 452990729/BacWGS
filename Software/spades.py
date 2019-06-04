@@ -1,0 +1,1 @@
+/home/lixuefei/Software/anaconda2/envs/spade-3.13.1/bin/spades.py
