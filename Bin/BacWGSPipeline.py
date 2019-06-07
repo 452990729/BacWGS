@@ -175,7 +175,7 @@ def WriteSnake(argv, list_ob, Paired):
     QC = Snake('QC')
     if Paired:
         QC.UpdateInput('"'+outpath+'/0.RawData/{sample}_1.fastq"')
-        QC.UpdateOutput('"'+outpath+'/1.QC/{sample}_1.clean.fq.gz"')
+        QC.UpdateOutput('A = "'+outpath+'/1.QC/{sample}_1.clean.fq.gz", B = "'+outpath+'/1.QC/{sample}_2.clean.fq.gz"')
         QC.UpdateThreads('2')
         QC.UpdateLog('e = "logs/{sample}.qc.e", o = "logs/{sample}.qc.o"')
         QC.UpdateShell(r'"'+FASTP+r' -i '+outpath+'/0.RawData/{wildcards.sample}_1.fastq -o '+outpath+'/1.QC/{wildcards.sample}_1.clean.fq.gz -I '+outpath+'/0.RawData/{wildcards.sample}_2.fastq -O '+outpath+'/1.QC/{wildcards.sample}_2.clean.fq.gz --adapter_sequence {adapter1} --adapter_sequence_r2 {adapter2} -w {threads} -j '+outpath+'/1.QC/{wildcards.sample}_QC_report.json -h '+outpath+'/1.QC/{wildcards.sample}_QC_report.html"')
