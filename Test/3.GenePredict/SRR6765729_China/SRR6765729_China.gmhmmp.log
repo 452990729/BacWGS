@@ -1,0 +1,15 @@
+
+Read raw result file
+
+
+check redundance on bp level:
+  359946 (all) = 359631 (pure) + 315 (redunt)
+
+Creating result files:
+  the result talbe file created
+  the result psl file created
+  the result gff file created
+  the result sequence files created
+
+Whole task finished
+

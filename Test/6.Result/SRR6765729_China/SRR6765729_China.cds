@@ -1,0 +1,1 @@
+/home/lixuefei/Pipeline/BacWGS/Test/3.GenePredict/SRR6765729_China/SRR6765729_China.gmhmmp.cds

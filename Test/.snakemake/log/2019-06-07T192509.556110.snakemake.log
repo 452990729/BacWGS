@@ -1,0 +1,335 @@
+Building DAG of jobs...
+Using shell: /bin/bash
+Provided cores: 20
+Rules claiming more threads will be scaled down.
+Job counts:
+	count	jobs
+	1	All
+	2	Assemble
+	2	GenePredict1
+	2	GenePredict2
+	2	GenePredict3
+	2	QC
+	2	Repeat1
+	2	Repeat2
+	2	TotalGff
+	2	rRNA
+	2	sRNA
+	2	tRNA
+	23
+
+[Fri Jun  7 19:25:09 2019]
+rule QC:
+    input: /home/lixuefei/Pipeline/BacWGS/Test/0.RawData/SRR6765728_China.fq.gz
+    output: /home/lixuefei/Pipeline/BacWGS/Test/1.QC/SRR6765728_China.clean.fq.gz
+    log: logs/SRR6765728_China.qc.e, logs/SRR6765728_China.qc.o
+    jobid: 20
+    wildcards: sample=SRR6765728_China
+
+/home/lixuefei/Pipeline/BacWGS/Software/fastp -i /home/lixuefei/Pipeline/BacWGS/Test/0.RawData/SRR6765728_China.fq.gz -o /home/lixuefei/Pipeline/BacWGS/Test/1.QC/SRR6765728_China.clean.fq.gz --adapter_sequence AGATCGGAAGAGCACACGTCTGAACTCCAGTCA -w 1 -j /home/lixuefei/Pipeline/BacWGS/Test/1.QC/SRR6765728_China_QC_report.json -h /home/lixuefei/Pipeline/BacWGS/Test/1.QC/SRR6765728_China_QC_report.html
+
+[Fri Jun  7 19:25:09 2019]
+rule QC:
+    input: /home/lixuefei/Pipeline/BacWGS/Test/0.RawData/SRR6765729_China.fq.gz
+    output: /home/lixuefei/Pipeline/BacWGS/Test/1.QC/SRR6765729_China.clean.fq.gz
+    log: logs/SRR6765729_China.qc.e, logs/SRR6765729_China.qc.o
+    jobid: 22
+    wildcards: sample=SRR6765729_China
+
+/home/lixuefei/Pipeline/BacWGS/Software/fastp -i /home/lixuefei/Pipeline/BacWGS/Test/0.RawData/SRR6765729_China.fq.gz -o /home/lixuefei/Pipeline/BacWGS/Test/1.QC/SRR6765729_China.clean.fq.gz --adapter_sequence AGATCGGAAGAGCACACGTCTGAACTCCAGTCA -w 1 -j /home/lixuefei/Pipeline/BacWGS/Test/1.QC/SRR6765729_China_QC_report.json -h /home/lixuefei/Pipeline/BacWGS/Test/1.QC/SRR6765729_China_QC_report.html
+[Fri Jun  7 19:25:10 2019]
+Finished job 20.
+1 of 23 steps (4%) done
+
+[Fri Jun  7 19:25:10 2019]
+rule Assemble:
+    input: /home/lixuefei/Pipeline/BacWGS/Test/1.QC/SRR6765728_China.clean.fq.gz
+    output: /home/lixuefei/Pipeline/BacWGS/Test/2.Assemble/SRR6765728_China/scaffolds.fasta
+    log: logs/SRR6765728_China.assemble.e, logs/SRR6765728_China.assemble.o
+    jobid: 16
+    wildcards: sample=SRR6765728_China
+    threads: 5
+
+/home/lixuefei/Pipeline/BacWGS/Software/spades.py -s /home/lixuefei/Pipeline/BacWGS/Test/1.QC/SRR6765728_China.clean.fq.gz -t 5 -o /home/lixuefei/Pipeline/BacWGS/Test/2.Assemble/SRR6765728_China/
+[Fri Jun  7 19:25:10 2019]
+Finished job 22.
+2 of 23 steps (9%) done
+
+[Fri Jun  7 19:25:10 2019]
+rule Assemble:
+    input: /home/lixuefei/Pipeline/BacWGS/Test/1.QC/SRR6765729_China.clean.fq.gz
+    output: /home/lixuefei/Pipeline/BacWGS/Test/2.Assemble/SRR6765729_China/scaffolds.fasta
+    log: logs/SRR6765729_China.assemble.e, logs/SRR6765729_China.assemble.o
+    jobid: 18
+    wildcards: sample=SRR6765729_China
+    threads: 5
+
+/home/lixuefei/Pipeline/BacWGS/Software/spades.py -s /home/lixuefei/Pipeline/BacWGS/Test/1.QC/SRR6765729_China.clean.fq.gz -t 5 -o /home/lixuefei/Pipeline/BacWGS/Test/2.Assemble/SRR6765729_China/
+[Fri Jun  7 19:25:33 2019]
+Finished job 18.
+3 of 23 steps (13%) done
+
+[Fri Jun  7 19:25:33 2019]
+rule GenePredict1:
+    input: /home/lixuefei/Pipeline/BacWGS/Test/2.Assemble/SRR6765729_China/scaffolds.fasta
+    output: /home/lixuefei/Pipeline/BacWGS/Test/3.GenePredict/SRR6765729_China/SRR6765729_China_hmm.mod
+    log: logs/SRR6765729_China.gp1.e, logs/SRR6765729_China.gp1.o
+    jobid: 21
+    wildcards: sample=SRR6765729_China
+
+cd /home/lixuefei/Pipeline/BacWGS/Test/3.GenePredict/SRR6765729_China/;/home/lixuefei/Pipeline/BacWGS/Software/gmsuite/gmsn.pl -name SRR6765729_China -clean -gcode 11 -shape partial --combine --prok /home/lixuefei/Pipeline/BacWGS/Test/2.Assemble/SRR6765729_China/scaffolds.fasta
+
+[Fri Jun  7 19:25:33 2019]
+rule Repeat2:
+    input: /home/lixuefei/Pipeline/BacWGS/Test/2.Assemble/SRR6765729_China/scaffolds.fasta
+    output: /home/lixuefei/Pipeline/BacWGS/Test/4.Repeat/SRR6765729_China/scaffolds.fasta.2.7.7.80.10.50.2000.dat, /home/lixuefei/Pipeline/BacWGS/Test/4.Repeat/SRR6765729_China/scaffolds.fasta.2.7.7.80.10.50.2000.dat.gff
+    log: logs/SRR6765729_China.rp2.e, logs/SRR6765729_China.rp2.o
+    jobid: 11
+    wildcards: sample=SRR6765729_China
+
+cd /home/lixuefei/Pipeline/BacWGS/Test/4.Repeat/SRR6765729_China;/home/lixuefei/Pipeline/BacWGS/Software/trf /home/lixuefei/Pipeline/BacWGS/Test/2.Assemble/SRR6765729_China/scaffolds.fasta 2 7 7 80 10 50 2000 -d -h;/home/lixuefei/Pipeline/BacWGS/Lib/repeat_to_gff.pl --prefix SRR6765729_China /home/lixuefei/Pipeline/BacWGS/Test/4.Repeat/SRR6765729_China/scaffolds.fasta.2.7.7.80.10.50.2000.dat
+
+[Fri Jun  7 19:25:33 2019]
+rule tRNA:
+    input: /home/lixuefei/Pipeline/BacWGS/Test/2.Assemble/SRR6765729_China/scaffolds.fasta
+    output: /home/lixuefei/Pipeline/BacWGS/Test/5.RNA/tRNA/SRR6765729_China/SRR6765729_China.tRNA, /home/lixuefei/Pipeline/BacWGS/Test/5.RNA/tRNA/SRR6765729_China/SRR6765729_China.tRNA.structure, /home/lixuefei/Pipeline/BacWGS/Test/5.RNA/tRNA/SRR6765729_China/SRR6765729_China.tRNA.gff
+    log: logs/SRR6765729_China.tRNA.e, logs/SRR6765729_China.tRNA.o
+    jobid: 13
+    wildcards: sample=SRR6765729_China
+
+cd /home/lixuefei/Pipeline/BacWGS/Test/5.RNA/tRNA/SRR6765729_China/;/home/lixuefei/Pipeline/BacWGS/Software/tRNAscan-SE -B -o /home/lixuefei/Pipeline/BacWGS/Test/5.RNA/tRNA/SRR6765729_China/SRR6765729_China.tRNA -f /home/lixuefei/Pipeline/BacWGS/Test/5.RNA/tRNA/SRR6765729_China/SRR6765729_China.tRNA.structure /home/lixuefei/Pipeline/BacWGS/Test/2.Assemble/SRR6765729_China/scaffolds.fasta;/home/lixuefei/Pipeline/BacWGS/Lib/tRNAscan_to_gff3.pl --prefix SRR6765729_China /home/lixuefei/Pipeline/BacWGS/Test/5.RNA/tRNA/SRR6765729_China/SRR6765729_China.tRNA /home/lixuefei/Pipeline/BacWGS/Test/5.RNA/tRNA/SRR6765729_China/SRR6765729_China.tRNA.structure > /home/lixuefei/Pipeline/BacWGS/Test/5.RNA/tRNA/SRR6765729_China/SRR6765729_China.tRNA.gff
+
+[Fri Jun  7 19:25:33 2019]
+rule rRNA:
+    input: /home/lixuefei/Pipeline/BacWGS/Test/2.Assemble/SRR6765729_China/scaffolds.fasta
+    output: /home/lixuefei/Pipeline/BacWGS/Test/5.RNA/rRNA/SRR6765729_China/SRR6765729_China.rRNAd.gff, /home/lixuefei/Pipeline/BacWGS/Test/5.RNA/rRNA/SRR6765729_China/SRR6765729_China.rRNAd.fa
+    log: logs/SRR6765729_China.rRNA.e, logs/SRR6765729_China.rRNA.o
+    jobid: 12
+    wildcards: sample=SRR6765729_China
+
+cd /home/lixuefei/Pipeline/BacWGS/Test/5.RNA/rRNA/SRR6765729_China/;/home/lixuefei/Pipeline/BacWGS/Software/perl /home/lixuefei/Pipeline/BacWGS/Software/rnammer-1.2/rnammer -S bac -m tsu,lsu,ssu -gff /home/lixuefei/Pipeline/BacWGS/Test/5.RNA/rRNA/SRR6765729_China/SRR6765729_China.rRNAd.gff -f /home/lixuefei/Pipeline/BacWGS/Test/5.RNA/rRNA/SRR6765729_China/SRR6765729_China.rRNAd.fa /home/lixuefei/Pipeline/BacWGS/Test/2.Assemble/SRR6765729_China/scaffolds.fasta;/home/lixuefei/Pipeline/BacWGS/Lib/HandlerRNA.py /home/lixuefei/Pipeline/BacWGS/Test/5.RNA/rRNA/SRR6765729_China
+
+[Fri Jun  7 19:25:33 2019]
+rule sRNA:
+    input: /home/lixuefei/Pipeline/BacWGS/Test/2.Assemble/SRR6765729_China/scaffolds.fasta
+    output: /home/lixuefei/Pipeline/BacWGS/Test/5.RNA/sRNA/SRR6765729_China/SRR6765729_China.tblout, /home/lixuefei/Pipeline/BacWGS/Test/5.RNA/sRNA/SRR6765729_China/SRR6765729_China.cmscan
+    log: logs/SRR6765729_China.sRNA.e, logs/SRR6765729_China.sRNA.o
+    jobid: 14
+    wildcards: sample=SRR6765729_China
+
+cd /home/lixuefei/Pipeline/BacWGS/Test/5.RNA/sRNA/SRR6765729_China/;/home/lixuefei/Pipeline/BacWGS/Software/cmscan -Z `/home/lixuefei/Pipeline/BacWGS/Software/seqkit stats -T /home/lixuefei/Pipeline/BacWGS/Test/2.Assemble/SRR6765729_China/scaffolds.fasta | awk '{if(NR==2) print int($5/2000000)+1}'` --cut_ga --rfam --nohmmonly --tblout /home/lixuefei/Pipeline/BacWGS/Test/5.RNA/sRNA/SRR6765729_China/SRR6765729_China.tblout --fmt 2 --clanin /home/lixuefei/Pipeline/BacWGS/Database/Rfam2019/Rfam.clanin /home/lixuefei/Pipeline/BacWGS/Database/Rfam2019/Rfam.cm /home/lixuefei/Pipeline/BacWGS/Test/2.Assemble/SRR6765729_China/scaffolds.fasta > /home/lixuefei/Pipeline/BacWGS/Test/5.RNA/sRNA/SRR6765729_China/SRR6765729_China.cmscan;
+
+[Fri Jun  7 19:25:33 2019]
+rule Repeat1:
+    input: /home/lixuefei/Pipeline/BacWGS/Test/2.Assemble/SRR6765729_China/scaffolds.fasta
+    output: /home/lixuefei/Pipeline/BacWGS/Test/4.Repeat/SRR6765729_China/scaffolds.fasta.out, /home/lixuefei/Pipeline/BacWGS/Test/4.Repeat/SRR6765729_China/scaffolds.fasta.out.gff
+    log: logs/SRR6765729_China.rp1.e, logs/SRR6765729_China.rp1.o
+    jobid: 10
+    wildcards: sample=SRR6765729_China
+    threads: 2
+
+cd /home/lixuefei/Pipeline/BacWGS/Test/4.Repeat/SRR6765729_China/;/home/lixuefei/Pipeline/BacWGS/Software/RepeatMasker -nolow -no_is -norna -engine wublast -parallel 2 -lib /home/lixuefei/Pipeline/BacWGS/Database/RepeatmaskLib/RepBase.fasta /home/lixuefei/Pipeline/BacWGS/Test/2.Assemble/SRR6765729_China/scaffolds.fasta -dir /home/lixuefei/Pipeline/BacWGS/Test/4.Repeat/SRR6765729_China/;/home/lixuefei/Pipeline/BacWGS/Lib/repeat_to_gff.pl --prefix SRR6765729_China /home/lixuefei/Pipeline/BacWGS/Test/4.Repeat/SRR6765729_China/scaffolds.fasta.out
+[Fri Jun  7 19:25:34 2019]
+Finished job 16.
+4 of 23 steps (17%) done
+
+[Fri Jun  7 19:25:34 2019]
+rule Repeat1:
+    input: /home/lixuefei/Pipeline/BacWGS/Test/2.Assemble/SRR6765728_China/scaffolds.fasta
+    output: /home/lixuefei/Pipeline/BacWGS/Test/4.Repeat/SRR6765728_China/scaffolds.fasta.out, /home/lixuefei/Pipeline/BacWGS/Test/4.Repeat/SRR6765728_China/scaffolds.fasta.out.gff
+    log: logs/SRR6765728_China.rp1.e, logs/SRR6765728_China.rp1.o
+    jobid: 4
+    wildcards: sample=SRR6765728_China
+    threads: 2
+
+cd /home/lixuefei/Pipeline/BacWGS/Test/4.Repeat/SRR6765728_China/;/home/lixuefei/Pipeline/BacWGS/Software/RepeatMasker -nolow -no_is -norna -engine wublast -parallel 2 -lib /home/lixuefei/Pipeline/BacWGS/Database/RepeatmaskLib/RepBase.fasta /home/lixuefei/Pipeline/BacWGS/Test/2.Assemble/SRR6765728_China/scaffolds.fasta -dir /home/lixuefei/Pipeline/BacWGS/Test/4.Repeat/SRR6765728_China/;/home/lixuefei/Pipeline/BacWGS/Lib/repeat_to_gff.pl --prefix SRR6765728_China /home/lixuefei/Pipeline/BacWGS/Test/4.Repeat/SRR6765728_China/scaffolds.fasta.out
+
+[Fri Jun  7 19:25:34 2019]
+rule Repeat2:
+    input: /home/lixuefei/Pipeline/BacWGS/Test/2.Assemble/SRR6765728_China/scaffolds.fasta
+    output: /home/lixuefei/Pipeline/BacWGS/Test/4.Repeat/SRR6765728_China/scaffolds.fasta.2.7.7.80.10.50.2000.dat, /home/lixuefei/Pipeline/BacWGS/Test/4.Repeat/SRR6765728_China/scaffolds.fasta.2.7.7.80.10.50.2000.dat.gff
+    log: logs/SRR6765728_China.rp2.e, logs/SRR6765728_China.rp2.o
+    jobid: 5
+    wildcards: sample=SRR6765728_China
+
+cd /home/lixuefei/Pipeline/BacWGS/Test/4.Repeat/SRR6765728_China;/home/lixuefei/Pipeline/BacWGS/Software/trf /home/lixuefei/Pipeline/BacWGS/Test/2.Assemble/SRR6765728_China/scaffolds.fasta 2 7 7 80 10 50 2000 -d -h;/home/lixuefei/Pipeline/BacWGS/Lib/repeat_to_gff.pl --prefix SRR6765728_China /home/lixuefei/Pipeline/BacWGS/Test/4.Repeat/SRR6765728_China/scaffolds.fasta.2.7.7.80.10.50.2000.dat
+
+[Fri Jun  7 19:25:34 2019]
+rule GenePredict1:
+    input: /home/lixuefei/Pipeline/BacWGS/Test/2.Assemble/SRR6765728_China/scaffolds.fasta
+    output: /home/lixuefei/Pipeline/BacWGS/Test/3.GenePredict/SRR6765728_China/SRR6765728_China_hmm.mod
+    log: logs/SRR6765728_China.gp1.e, logs/SRR6765728_China.gp1.o
+    jobid: 19
+    wildcards: sample=SRR6765728_China
+
+cd /home/lixuefei/Pipeline/BacWGS/Test/3.GenePredict/SRR6765728_China/;/home/lixuefei/Pipeline/BacWGS/Software/gmsuite/gmsn.pl -name SRR6765728_China -clean -gcode 11 -shape partial --combine --prok /home/lixuefei/Pipeline/BacWGS/Test/2.Assemble/SRR6765728_China/scaffolds.fasta
+
+[Fri Jun  7 19:25:34 2019]
+rule rRNA:
+    input: /home/lixuefei/Pipeline/BacWGS/Test/2.Assemble/SRR6765728_China/scaffolds.fasta
+    output: /home/lixuefei/Pipeline/BacWGS/Test/5.RNA/rRNA/SRR6765728_China/SRR6765728_China.rRNAd.gff, /home/lixuefei/Pipeline/BacWGS/Test/5.RNA/rRNA/SRR6765728_China/SRR6765728_China.rRNAd.fa
+    log: logs/SRR6765728_China.rRNA.e, logs/SRR6765728_China.rRNA.o
+    jobid: 6
+    wildcards: sample=SRR6765728_China
+
+cd /home/lixuefei/Pipeline/BacWGS/Test/5.RNA/rRNA/SRR6765728_China/;/home/lixuefei/Pipeline/BacWGS/Software/perl /home/lixuefei/Pipeline/BacWGS/Software/rnammer-1.2/rnammer -S bac -m tsu,lsu,ssu -gff /home/lixuefei/Pipeline/BacWGS/Test/5.RNA/rRNA/SRR6765728_China/SRR6765728_China.rRNAd.gff -f /home/lixuefei/Pipeline/BacWGS/Test/5.RNA/rRNA/SRR6765728_China/SRR6765728_China.rRNAd.fa /home/lixuefei/Pipeline/BacWGS/Test/2.Assemble/SRR6765728_China/scaffolds.fasta;/home/lixuefei/Pipeline/BacWGS/Lib/HandlerRNA.py /home/lixuefei/Pipeline/BacWGS/Test/5.RNA/rRNA/SRR6765728_China
+
+[Fri Jun  7 19:25:34 2019]
+rule sRNA:
+    input: /home/lixuefei/Pipeline/BacWGS/Test/2.Assemble/SRR6765728_China/scaffolds.fasta
+    output: /home/lixuefei/Pipeline/BacWGS/Test/5.RNA/sRNA/SRR6765728_China/SRR6765728_China.tblout, /home/lixuefei/Pipeline/BacWGS/Test/5.RNA/sRNA/SRR6765728_China/SRR6765728_China.cmscan
+    log: logs/SRR6765728_China.sRNA.e, logs/SRR6765728_China.sRNA.o
+    jobid: 8
+    wildcards: sample=SRR6765728_China
+
+cd /home/lixuefei/Pipeline/BacWGS/Test/5.RNA/sRNA/SRR6765728_China/;/home/lixuefei/Pipeline/BacWGS/Software/cmscan -Z `/home/lixuefei/Pipeline/BacWGS/Software/seqkit stats -T /home/lixuefei/Pipeline/BacWGS/Test/2.Assemble/SRR6765728_China/scaffolds.fasta | awk '{if(NR==2) print int($5/2000000)+1}'` --cut_ga --rfam --nohmmonly --tblout /home/lixuefei/Pipeline/BacWGS/Test/5.RNA/sRNA/SRR6765728_China/SRR6765728_China.tblout --fmt 2 --clanin /home/lixuefei/Pipeline/BacWGS/Database/Rfam2019/Rfam.clanin /home/lixuefei/Pipeline/BacWGS/Database/Rfam2019/Rfam.cm /home/lixuefei/Pipeline/BacWGS/Test/2.Assemble/SRR6765728_China/scaffolds.fasta > /home/lixuefei/Pipeline/BacWGS/Test/5.RNA/sRNA/SRR6765728_China/SRR6765728_China.cmscan;
+
+[Fri Jun  7 19:25:34 2019]
+rule tRNA:
+    input: /home/lixuefei/Pipeline/BacWGS/Test/2.Assemble/SRR6765728_China/scaffolds.fasta
+    output: /home/lixuefei/Pipeline/BacWGS/Test/5.RNA/tRNA/SRR6765728_China/SRR6765728_China.tRNA, /home/lixuefei/Pipeline/BacWGS/Test/5.RNA/tRNA/SRR6765728_China/SRR6765728_China.tRNA.structure, /home/lixuefei/Pipeline/BacWGS/Test/5.RNA/tRNA/SRR6765728_China/SRR6765728_China.tRNA.gff
+    log: logs/SRR6765728_China.tRNA.e, logs/SRR6765728_China.tRNA.o
+    jobid: 7
+    wildcards: sample=SRR6765728_China
+
+cd /home/lixuefei/Pipeline/BacWGS/Test/5.RNA/tRNA/SRR6765728_China/;/home/lixuefei/Pipeline/BacWGS/Software/tRNAscan-SE -B -o /home/lixuefei/Pipeline/BacWGS/Test/5.RNA/tRNA/SRR6765728_China/SRR6765728_China.tRNA -f /home/lixuefei/Pipeline/BacWGS/Test/5.RNA/tRNA/SRR6765728_China/SRR6765728_China.tRNA.structure /home/lixuefei/Pipeline/BacWGS/Test/2.Assemble/SRR6765728_China/scaffolds.fasta;/home/lixuefei/Pipeline/BacWGS/Lib/tRNAscan_to_gff3.pl --prefix SRR6765728_China /home/lixuefei/Pipeline/BacWGS/Test/5.RNA/tRNA/SRR6765728_China/SRR6765728_China.tRNA /home/lixuefei/Pipeline/BacWGS/Test/5.RNA/tRNA/SRR6765728_China/SRR6765728_China.tRNA.structure > /home/lixuefei/Pipeline/BacWGS/Test/5.RNA/tRNA/SRR6765728_China/SRR6765728_China.tRNA.gff
+[Fri Jun  7 19:25:36 2019]
+Finished job 5.
+5 of 23 steps (22%) done
+[Fri Jun  7 19:25:36 2019]
+Finished job 11.
+6 of 23 steps (26%) done
+[Fri Jun  7 19:26:01 2019]
+Finished job 21.
+7 of 23 steps (30%) done
+
+[Fri Jun  7 19:26:01 2019]
+rule GenePredict2:
+    input: /home/lixuefei/Pipeline/BacWGS/Test/3.GenePredict/SRR6765729_China/SRR6765729_China_hmm.mod, /home/lixuefei/Pipeline/BacWGS/Test/2.Assemble/SRR6765729_China/scaffolds.fasta
+    output: /home/lixuefei/Pipeline/BacWGS/Test/3.GenePredict/SRR6765729_China/SRR6765729_China.gmhmmp
+    log: logs/SRR6765729_China.gp2.e, logs/SRR6765729_China.gp2.o
+    jobid: 17
+    wildcards: sample=SRR6765729_China
+
+cd /home/lixuefei/Pipeline/BacWGS/Test/3.GenePredict/SRR6765729_China/;/home/lixuefei/Pipeline/BacWGS/Software/gmsuite/gmhmmp -m /home/lixuefei/Pipeline/BacWGS/Test/3.GenePredict/SRR6765729_China/SRR6765729_China_hmm.mod -o /home/lixuefei/Pipeline/BacWGS/Test/3.GenePredict/SRR6765729_China/SRR6765729_China.gmhmmp -a -d -p 1 -f L /home/lixuefei/Pipeline/BacWGS/Test/2.Assemble/SRR6765729_China/scaffolds.fasta
+[Fri Jun  7 19:26:02 2019]
+Finished job 17.
+8 of 23 steps (35%) done
+
+[Fri Jun  7 19:26:02 2019]
+rule GenePredict3:
+    input: /home/lixuefei/Pipeline/BacWGS/Test/3.GenePredict/SRR6765729_China/SRR6765729_China.gmhmmp, /home/lixuefei/Pipeline/BacWGS/Test/2.Assemble/SRR6765729_China/scaffolds.fasta
+    output: /home/lixuefei/Pipeline/BacWGS/Test/3.GenePredict/SRR6765729_China/SRR6765729_China.gmhmmp.cds, /home/lixuefei/Pipeline/BacWGS/Test/3.GenePredict/SRR6765729_China/SRR6765729_China.gmhmmp.pep, /home/lixuefei/Pipeline/BacWGS/Test/3.GenePredict/SRR6765729_China/SRR6765729_China.gmhmmp.gff
+    log: logs/SRR6765729_China.gp3.e, logs/SRR6765729_China.gp3.o
+    jobid: 9
+    wildcards: sample=SRR6765729_China
+
+cd /home/lixuefei/Pipeline/BacWGS/Test/3.GenePredict/SRR6765729_China/;/home/lixuefei/Pipeline/BacWGS/Lib/genemark_convert_2.pl --final SRR6765729_ChinaGM --gcode 11 --log --verbose /home/lixuefei/Pipeline/BacWGS/Test/3.GenePredict/SRR6765729_China/SRR6765729_China.gmhmmp /home/lixuefei/Pipeline/BacWGS/Test/2.Assemble/SRR6765729_China/scaffolds.fasta
+[Fri Jun  7 19:26:02 2019]
+Finished job 9.
+9 of 23 steps (39%) done
+[Fri Jun  7 19:26:11 2019]
+Finished job 19.
+10 of 23 steps (43%) done
+
+[Fri Jun  7 19:26:11 2019]
+rule GenePredict2:
+    input: /home/lixuefei/Pipeline/BacWGS/Test/3.GenePredict/SRR6765728_China/SRR6765728_China_hmm.mod, /home/lixuefei/Pipeline/BacWGS/Test/2.Assemble/SRR6765728_China/scaffolds.fasta
+    output: /home/lixuefei/Pipeline/BacWGS/Test/3.GenePredict/SRR6765728_China/SRR6765728_China.gmhmmp
+    log: logs/SRR6765728_China.gp2.e, logs/SRR6765728_China.gp2.o
+    jobid: 15
+    wildcards: sample=SRR6765728_China
+
+cd /home/lixuefei/Pipeline/BacWGS/Test/3.GenePredict/SRR6765728_China/;/home/lixuefei/Pipeline/BacWGS/Software/gmsuite/gmhmmp -m /home/lixuefei/Pipeline/BacWGS/Test/3.GenePredict/SRR6765728_China/SRR6765728_China_hmm.mod -o /home/lixuefei/Pipeline/BacWGS/Test/3.GenePredict/SRR6765728_China/SRR6765728_China.gmhmmp -a -d -p 1 -f L /home/lixuefei/Pipeline/BacWGS/Test/2.Assemble/SRR6765728_China/scaffolds.fasta
+[Fri Jun  7 19:26:12 2019]
+Finished job 15.
+11 of 23 steps (48%) done
+
+[Fri Jun  7 19:26:12 2019]
+rule GenePredict3:
+    input: /home/lixuefei/Pipeline/BacWGS/Test/3.GenePredict/SRR6765728_China/SRR6765728_China.gmhmmp, /home/lixuefei/Pipeline/BacWGS/Test/2.Assemble/SRR6765728_China/scaffolds.fasta
+    output: /home/lixuefei/Pipeline/BacWGS/Test/3.GenePredict/SRR6765728_China/SRR6765728_China.gmhmmp.cds, /home/lixuefei/Pipeline/BacWGS/Test/3.GenePredict/SRR6765728_China/SRR6765728_China.gmhmmp.pep, /home/lixuefei/Pipeline/BacWGS/Test/3.GenePredict/SRR6765728_China/SRR6765728_China.gmhmmp.gff
+    log: logs/SRR6765728_China.gp3.e, logs/SRR6765728_China.gp3.o
+    jobid: 3
+    wildcards: sample=SRR6765728_China
+
+cd /home/lixuefei/Pipeline/BacWGS/Test/3.GenePredict/SRR6765728_China/;/home/lixuefei/Pipeline/BacWGS/Lib/genemark_convert_2.pl --final SRR6765728_ChinaGM --gcode 11 --log --verbose /home/lixuefei/Pipeline/BacWGS/Test/3.GenePredict/SRR6765728_China/SRR6765728_China.gmhmmp /home/lixuefei/Pipeline/BacWGS/Test/2.Assemble/SRR6765728_China/scaffolds.fasta
+[Fri Jun  7 19:26:12 2019]
+Finished job 3.
+12 of 23 steps (52%) done
+[Fri Jun  7 19:26:55 2019]
+Finished job 6.
+13 of 23 steps (57%) done
+[Fri Jun  7 19:26:59 2019]
+Finished job 12.
+14 of 23 steps (61%) done
+[Fri Jun  7 19:34:23 2019]
+Finished job 8.
+15 of 23 steps (65%) done
+[Fri Jun  7 19:34:46 2019]
+Finished job 14.
+16 of 23 steps (70%) done
+[Fri Jun  7 19:35:55 2019]
+Finished job 7.
+17 of 23 steps (74%) done
+[Fri Jun  7 19:37:00 2019]
+Finished job 13.
+18 of 23 steps (78%) done
+[Fri Jun  7 20:03:45 2019]
+Finished job 4.
+19 of 23 steps (83%) done
+
+[Fri Jun  7 20:03:45 2019]
+rule TotalGff:
+    input: /home/lixuefei/Pipeline/BacWGS/Test/3.GenePredict/SRR6765728_China/SRR6765728_China.gmhmmp.cds, /home/lixuefei/Pipeline/BacWGS/Test/3.GenePredict/SRR6765728_China/SRR6765728_China.gmhmmp.pep, /home/lixuefei/Pipeline/BacWGS/Test/3.GenePredict/SRR6765728_China/SRR6765728_China.gmhmmp.gff, /home/lixuefei/Pipeline/BacWGS/Test/4.Repeat/SRR6765728_China/scaffolds.fasta.out.gff, /home/lixuefei/Pipeline/BacWGS/Test/4.Repeat/SRR6765728_China/scaffolds.fasta.2.7.7.80.10.50.2000.dat.gff, /home/lixuefei/Pipeline/BacWGS/Test/5.RNA/rRNA/SRR6765728_China/SRR6765728_China.rRNAd.gff, /home/lixuefei/Pipeline/BacWGS/Test/5.RNA/tRNA/SRR6765728_China/SRR6765728_China.tRNA.gff, /home/lixuefei/Pipeline/BacWGS/Test/5.RNA/sRNA/SRR6765728_China/SRR6765728_China.tblout
+    output: /home/lixuefei/Pipeline/BacWGS/Test/6.Result/SRR6765728_China/SRR6765728_China.cds, /home/lixuefei/Pipeline/BacWGS/Test/6.Result/SRR6765728_China/SRR6765728_China.pep, /home/lixuefei/Pipeline/BacWGS/Test/6.Result/SRR6765728_China/SRR6765728_China.gff, /home/lixuefei/Pipeline/BacWGS/Test/6.Result/SRR6765728_China/SRR6765728_China.repbase.gff, /home/lixuefei/Pipeline/BacWGS/Test/6.Result/SRR6765728_China/SRR6765728_China.trf.gff, /home/lixuefei/Pipeline/BacWGS/Test/6.Result/SRR6765728_China/SRR6765728_China.rRNA.gff, /home/lixuefei/Pipeline/BacWGS/Test/6.Result/SRR6765728_China/SRR6765728_China.tRNA.gff, /home/lixuefei/Pipeline/BacWGS/Test/6.Result/SRR6765728_China/SRR6765728_China.sRNA.gff
+    log: logs/SRR6765728_China.result.e, logs/SRR6765728_China.result.o
+    jobid: 1
+    wildcards: sample=SRR6765728_China
+
+ln -s /home/lixuefei/Pipeline/BacWGS/Test/3.GenePredict/SRR6765728_China/SRR6765728_China.gmhmmp.cds /home/lixuefei/Pipeline/BacWGS/Test/6.Result/SRR6765728_China/SRR6765728_China.cds;ln -s /home/lixuefei/Pipeline/BacWGS/Test/3.GenePredict/SRR6765728_China/SRR6765728_China.gmhmmp.pep /home/lixuefei/Pipeline/BacWGS/Test/6.Result/SRR6765728_China/SRR6765728_China.pep;ln -s /home/lixuefei/Pipeline/BacWGS/Test/3.GenePredict/SRR6765728_China/SRR6765728_China.gmhmmp.gff /home/lixuefei/Pipeline/BacWGS/Test/6.Result/SRR6765728_China/SRR6765728_China.gff;ln -s /home/lixuefei/Pipeline/BacWGS/Test/4.Repeat/SRR6765728_China/scaffolds.fasta.out.gff /home/lixuefei/Pipeline/BacWGS/Test/6.Result/SRR6765728_China/SRR6765728_China.repbase.gff;ln -s /home/lixuefei/Pipeline/BacWGS/Test/4.Repeat/SRR6765728_China/scaffolds.fasta.2.7.7.80.10.50.2000.dat.gff /home/lixuefei/Pipeline/BacWGS/Test/6.Result/SRR6765728_China/SRR6765728_China.trf.gff;ln -s /home/lixuefei/Pipeline/BacWGS/Test/5.RNA/rRNA/SRR6765728_China/SRR6765728_China.rRNAd.gff /home/lixuefei/Pipeline/BacWGS/Test/6.Result/SRR6765728_China/SRR6765728_China.rRNA.gff;ln -s /home/lixuefei/Pipeline/BacWGS/Test/5.RNA/tRNA/SRR6765728_China/SRR6765728_China.tRNA.gff /home/lixuefei/Pipeline/BacWGS/Test/6.Result/SRR6765728_China/SRR6765728_China.tRNA.gff;ln -s /home/lixuefei/Pipeline/BacWGS/Test/5.RNA/sRNA/SRR6765728_China/SRR6765728_China.tblout /home/lixuefei/Pipeline/BacWGS/Test/6.Result/SRR6765728_China/SRR6765728_China.sRNA.gff
+Unable to set utime on symlink /home/lixuefei/Pipeline/BacWGS/Test/6.Result/SRR6765728_China/SRR6765728_China.cds. Your Python build does not support it.
+Unable to set utime on symlink /home/lixuefei/Pipeline/BacWGS/Test/6.Result/SRR6765728_China/SRR6765728_China.pep. Your Python build does not support it.
+Unable to set utime on symlink /home/lixuefei/Pipeline/BacWGS/Test/6.Result/SRR6765728_China/SRR6765728_China.gff. Your Python build does not support it.
+Unable to set utime on symlink /home/lixuefei/Pipeline/BacWGS/Test/6.Result/SRR6765728_China/SRR6765728_China.repbase.gff. Your Python build does not support it.
+Unable to set utime on symlink /home/lixuefei/Pipeline/BacWGS/Test/6.Result/SRR6765728_China/SRR6765728_China.trf.gff. Your Python build does not support it.
+Unable to set utime on symlink /home/lixuefei/Pipeline/BacWGS/Test/6.Result/SRR6765728_China/SRR6765728_China.rRNA.gff. Your Python build does not support it.
+Unable to set utime on symlink /home/lixuefei/Pipeline/BacWGS/Test/6.Result/SRR6765728_China/SRR6765728_China.tRNA.gff. Your Python build does not support it.
+Unable to set utime on symlink /home/lixuefei/Pipeline/BacWGS/Test/6.Result/SRR6765728_China/SRR6765728_China.sRNA.gff. Your Python build does not support it.
+[Fri Jun  7 20:03:45 2019]
+Finished job 1.
+20 of 23 steps (87%) done
+[Fri Jun  7 20:04:08 2019]
+Finished job 10.
+21 of 23 steps (91%) done
+
+[Fri Jun  7 20:04:08 2019]
+rule TotalGff:
+    input: /home/lixuefei/Pipeline/BacWGS/Test/3.GenePredict/SRR6765729_China/SRR6765729_China.gmhmmp.cds, /home/lixuefei/Pipeline/BacWGS/Test/3.GenePredict/SRR6765729_China/SRR6765729_China.gmhmmp.pep, /home/lixuefei/Pipeline/BacWGS/Test/3.GenePredict/SRR6765729_China/SRR6765729_China.gmhmmp.gff, /home/lixuefei/Pipeline/BacWGS/Test/4.Repeat/SRR6765729_China/scaffolds.fasta.out.gff, /home/lixuefei/Pipeline/BacWGS/Test/4.Repeat/SRR6765729_China/scaffolds.fasta.2.7.7.80.10.50.2000.dat.gff, /home/lixuefei/Pipeline/BacWGS/Test/5.RNA/rRNA/SRR6765729_China/SRR6765729_China.rRNAd.gff, /home/lixuefei/Pipeline/BacWGS/Test/5.RNA/tRNA/SRR6765729_China/SRR6765729_China.tRNA.gff, /home/lixuefei/Pipeline/BacWGS/Test/5.RNA/sRNA/SRR6765729_China/SRR6765729_China.tblout
+    output: /home/lixuefei/Pipeline/BacWGS/Test/6.Result/SRR6765729_China/SRR6765729_China.cds, /home/lixuefei/Pipeline/BacWGS/Test/6.Result/SRR6765729_China/SRR6765729_China.pep, /home/lixuefei/Pipeline/BacWGS/Test/6.Result/SRR6765729_China/SRR6765729_China.gff, /home/lixuefei/Pipeline/BacWGS/Test/6.Result/SRR6765729_China/SRR6765729_China.repbase.gff, /home/lixuefei/Pipeline/BacWGS/Test/6.Result/SRR6765729_China/SRR6765729_China.trf.gff, /home/lixuefei/Pipeline/BacWGS/Test/6.Result/SRR6765729_China/SRR6765729_China.rRNA.gff, /home/lixuefei/Pipeline/BacWGS/Test/6.Result/SRR6765729_China/SRR6765729_China.tRNA.gff, /home/lixuefei/Pipeline/BacWGS/Test/6.Result/SRR6765729_China/SRR6765729_China.sRNA.gff
+    log: logs/SRR6765729_China.result.e, logs/SRR6765729_China.result.o
+    jobid: 2
+    wildcards: sample=SRR6765729_China
+
+ln -s /home/lixuefei/Pipeline/BacWGS/Test/3.GenePredict/SRR6765729_China/SRR6765729_China.gmhmmp.cds /home/lixuefei/Pipeline/BacWGS/Test/6.Result/SRR6765729_China/SRR6765729_China.cds;ln -s /home/lixuefei/Pipeline/BacWGS/Test/3.GenePredict/SRR6765729_China/SRR6765729_China.gmhmmp.pep /home/lixuefei/Pipeline/BacWGS/Test/6.Result/SRR6765729_China/SRR6765729_China.pep;ln -s /home/lixuefei/Pipeline/BacWGS/Test/3.GenePredict/SRR6765729_China/SRR6765729_China.gmhmmp.gff /home/lixuefei/Pipeline/BacWGS/Test/6.Result/SRR6765729_China/SRR6765729_China.gff;ln -s /home/lixuefei/Pipeline/BacWGS/Test/4.Repeat/SRR6765729_China/scaffolds.fasta.out.gff /home/lixuefei/Pipeline/BacWGS/Test/6.Result/SRR6765729_China/SRR6765729_China.repbase.gff;ln -s /home/lixuefei/Pipeline/BacWGS/Test/4.Repeat/SRR6765729_China/scaffolds.fasta.2.7.7.80.10.50.2000.dat.gff /home/lixuefei/Pipeline/BacWGS/Test/6.Result/SRR6765729_China/SRR6765729_China.trf.gff;ln -s /home/lixuefei/Pipeline/BacWGS/Test/5.RNA/rRNA/SRR6765729_China/SRR6765729_China.rRNAd.gff /home/lixuefei/Pipeline/BacWGS/Test/6.Result/SRR6765729_China/SRR6765729_China.rRNA.gff;ln -s /home/lixuefei/Pipeline/BacWGS/Test/5.RNA/tRNA/SRR6765729_China/SRR6765729_China.tRNA.gff /home/lixuefei/Pipeline/BacWGS/Test/6.Result/SRR6765729_China/SRR6765729_China.tRNA.gff;ln -s /home/lixuefei/Pipeline/BacWGS/Test/5.RNA/sRNA/SRR6765729_China/SRR6765729_China.tblout /home/lixuefei/Pipeline/BacWGS/Test/6.Result/SRR6765729_China/SRR6765729_China.sRNA.gff
+Unable to set utime on symlink /home/lixuefei/Pipeline/BacWGS/Test/6.Result/SRR6765729_China/SRR6765729_China.cds. Your Python build does not support it.
+Unable to set utime on symlink /home/lixuefei/Pipeline/BacWGS/Test/6.Result/SRR6765729_China/SRR6765729_China.pep. Your Python build does not support it.
+Unable to set utime on symlink /home/lixuefei/Pipeline/BacWGS/Test/6.Result/SRR6765729_China/SRR6765729_China.gff. Your Python build does not support it.
+Unable to set utime on symlink /home/lixuefei/Pipeline/BacWGS/Test/6.Result/SRR6765729_China/SRR6765729_China.repbase.gff. Your Python build does not support it.
+Unable to set utime on symlink /home/lixuefei/Pipeline/BacWGS/Test/6.Result/SRR6765729_China/SRR6765729_China.trf.gff. Your Python build does not support it.
+Unable to set utime on symlink /home/lixuefei/Pipeline/BacWGS/Test/6.Result/SRR6765729_China/SRR6765729_China.rRNA.gff. Your Python build does not support it.
+Unable to set utime on symlink /home/lixuefei/Pipeline/BacWGS/Test/6.Result/SRR6765729_China/SRR6765729_China.tRNA.gff. Your Python build does not support it.
+Unable to set utime on symlink /home/lixuefei/Pipeline/BacWGS/Test/6.Result/SRR6765729_China/SRR6765729_China.sRNA.gff. Your Python build does not support it.
+[Fri Jun  7 20:04:08 2019]
+Finished job 2.
+22 of 23 steps (96%) done
+
+[Fri Jun  7 20:04:08 2019]
+localrule All:
+    input: /home/lixuefei/Pipeline/BacWGS/Test/6.Result/SRR6765728_China/SRR6765728_China.sRNA.gff, /home/lixuefei/Pipeline/BacWGS/Test/6.Result/SRR6765729_China/SRR6765729_China.sRNA.gff
+    jobid: 0
+
+[Fri Jun  7 20:04:08 2019]
+Finished job 0.
+23 of 23 steps (100%) done
+Complete log: /home/lixuefei/Pipeline/BacWGS/Test/.snakemake/log/2019-06-07T192509.556110.snakemake.log

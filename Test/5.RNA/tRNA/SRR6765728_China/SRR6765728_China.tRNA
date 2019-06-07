@@ -1,0 +1,35 @@
+Sequence                        		tRNA	Bounds	tRNA	Anti	Intron Bounds	Inf	      
+Name                            	tRNA #	Begin	End 	Type	Codon	Begin	End	Score	Note
+--------                        	------	-----	------	----	-----	-----	----	------	------
+NODE_5_length_6840_cov_3.507148 	1	2946	3022	Ile	GAT	0	0	84.1	
+NODE_5_length_6840_cov_3.507148 	2	3028	3103	Ala	TGC	0	0	81.8	
+NODE_30_length_3717_cov_2.176133	1	1035	958 	Pro	TGG	0	0	77.8	
+NODE_30_length_3717_cov_2.176133	2	933 	857 	Arg	TCT	0	0	76.7	
+NODE_30_length_3717_cov_2.176133	3	829 	754 	His	GTG	0	0	77.0	
+NODE_31_length_3697_cov_2.760297	1	3233	3309	fMet	CAT	0	0	77.1	
+NODE_82_length_2557_cov_1.962430	1	1964	1889	Arg	CCG	0	0	73.5	
+NODE_89_length_2482_cov_2.310260	1	2327	2402	Gly	GCC	0	0	80.1	
+NODE_89_length_2482_cov_2.310260	2	2436	2479	Undet	NNN	0	0	11.1	pseudo
+NODE_103_length_2322_cov_2.448610	1	1917	1842	Asn	GTT	0	0	74.0	
+NODE_206_length_1727_cov_1.804426	1	526 	602 	Val	GAC	0	0	83.5	
+NODE_338_length_1390_cov_2.560300	1	1332	1257	Trp	CCA	0	0	78.2	
+NODE_409_length_1291_cov_2.233819	1	843 	919 	Pro	CGG	0	0	77.6	
+NODE_501_length_1153_cov_2.651184	1	627 	551 	Met	CAT	0	0	72.5	
+NODE_501_length_1153_cov_2.651184	2	543 	468 	Ala	GGC	0	0	78.0	
+NODE_624_length_1008_cov_2.229801	1	83  	8   	Glu	TTC	0	0	60.8	
+NODE_800_length_854_cov_2.193992	1	611 	703 	Ser	GCT	0	0	82.0	
+NODE_852_length_820_cov_2.950327	1	400 	324 	Arg	ACG	0	0	80.8	
+NODE_852_length_820_cov_2.950327	2	306 	232 	Glu	TTC	0	0	64.6	
+NODE_890_length_802_cov_2.016064	1	670 	745 	Thr	CGT	0	0	74.4	
+NODE_1025_length_703_cov_2.533951	1	192 	276 	Leu	TAG	0	0	70.4	
+NODE_1089_length_664_cov_2.546798	1	528 	611 	Tyr	GTA	0	0	76.6	
+NODE_1123_length_649_cov_2.373737	1	428 	353 	Lys	TTT	0	0	87.2	
+NODE_1129_length_647_cov_2.331081	1	132 	42  	Ser	TGA	0	0	81.5	
+NODE_1277_length_568_cov_1.980507	1	144 	215 	Arg	CCT	0	0	55.9	
+NODE_1404_length_506_cov_2.230599	1	237 	162 	Ile2	CAT	0	0	83.3	
+NODE_1830_length_341_cov_1.416084	1	127 	202 	Phe	GAA	0	0	88.3	
+NODE_2023_length_279_cov_2.245536	1	1   	54  	Undet	NNN	0	0	29.4	
+NODE_2023_length_279_cov_2.245536	2	94  	169 	Val	TAC	0	0	87.5	
+NODE_2023_length_279_cov_2.245536	3	202 	278 	Asp	GTC	0	0	86.5	
+NODE_2026_length_278_cov_2.192825	1	93  	177 	Leu	CAA	0	0	75.8	
+NODE_2249_length_143_cov_5.034091	1	68  	143 	Gln	TTG	0	0	73.8	

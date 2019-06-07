@@ -1,0 +1,35 @@
+Command line: /home/lixuefei/Pipeline/BacWGS/Software/spades.py	-s	/home/lixuefei/Pipeline/BacWGS/Test/1.QC/SRR6765729_China.clean.fq.gz	-t	5	-o	/home/lixuefei/Pipeline/BacWGS/Test/2.Assemble/SRR6765729_China	
+
+System information:
+  SPAdes version: 3.13.1
+  Python version: 2.7.16
+  OS: Linux-4.15.0-36-generic-x86_64-with-debian-buster-sid
+
+Output dir: /home/lixuefei/Pipeline/BacWGS/Test/2.Assemble/SRR6765729_China
+Mode: read error correction and assembling
+Debug mode is turned OFF
+
+Dataset parameters:
+  Multi-cell mode (you should set '--sc' flag if input data was obtained with MDA (single-cell) technology or --meta flag if processing metagenomic dataset)
+  Reads:
+    Library number: 1, library type: single
+      left reads: not specified
+      right reads: not specified
+      interlaced reads: not specified
+      single reads: ['/home/lixuefei/Pipeline/BacWGS/Test/1.QC/SRR6765729_China.clean.fq.gz']
+      merged reads: not specified
+Read error correction parameters:
+  Iterations: 1
+  PHRED offset will be auto-detected
+  Corrected reads will be compressed
+Assembly parameters:
+  k: automatic selection based on read length
+  Repeat resolution is enabled
+  Mismatch careful mode is turned OFF
+  MismatchCorrector will be SKIPPED
+  Coverage cutoff is turned OFF
+Other parameters:
+  Dir for temp files: /home/lixuefei/Pipeline/BacWGS/Test/2.Assemble/SRR6765729_China/tmp
+  Threads: 5
+  Memory limit (in Gb): 250
+

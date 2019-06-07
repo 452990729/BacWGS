@@ -1,0 +1,673 @@
+
+
+
+-------------------------------------------------
+start time            : Fri Jun  7 19:25:34 2019
+GMS version           : 4.32 April 2015
+working directory     : /home/lixuefei/Pipeline/BacWGS/Test/3.GenePredict/SRR6765728_China
+command line          : -name SRR6765728_China -clean -gcode 11 -shape partial --combine --prok /home/lixuefei/Pipeline/BacWGS/Test/2.Assemble/SRR6765728_China/scaffolds.fasta
+output file with predictions : scaffolds.fasta.lst
+input sequence        : /home/lixuefei/Pipeline/BacWGS/Test/2.Assemble/SRR6765728_China/scaffolds.fasta
+output name for model : SRR6765728_China
+combine model         : 1
+GeneMark model        : 
+species name          : 
+delete temp files     : 1
+markov chain order    : 2
+non-coding order      : 2
+genetic code          : 11
+sequence organization : partial
+search for motif      : 1
+motif width           : 6
+prestart length       : 40
+identity threshold    : 0.99
+maximum iteration     : 10
+fixed motif position  : 
+gene overlap off      : 
+strand to predict on  : both
+mode prokaryotic      : 1
+mode eukaryotic       : 
+mode virus            : 
+mode phage            : 
+mode est              : 
+GeneMarkS parameters  : /home/lixuefei/Software/genemark_suite_linux_64/gmsuite/par_11.default
+initial hmm model     : 
+output format         : LST
+output PostScript     : 
+output PDF            : 
+output nucleotides    : 
+output proteins       : 
+gibbs version         : 3
+heuristic version     : 2
+evidense data file    : 
+combine native with   : 
+use input defline     : 
+
+      run starts here:
+prepare sequence
+/home/lixuefei/Software/genemark_suite_linux_64/gmsuite/probuild --par /home/lixuefei/Software/genemark_suite_linux_64/gmsuite/par_11.default  --clean_join sequence --seq /home/lixuefei/Pipeline/BacWGS/Test/2.Assemble/SRR6765728_China/scaffolds.fasta --log gms.log
+Clean-Join      IN   OUT
+Contigs - 2258 631
+All letters - 1957732   1137824
+Unambiguous letters - 1957732 1106324
+A - 457206 262719
+C - 509582 287828
+G - 519663 289779
+T - 471281 265998
+N - 0 0
+Parameters:
+  Minimum of unambiguous letters per record: 1000
+  Trim down substrings "N...N" to maximum length: 50
+  Connect records using gap filler: NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN
+  Minimum of unambiguous letters in output: 50000
+system call done
+do_iterations = 1
+set initial <gmhmmp> model
+get GC
+/home/lixuefei/Software/genemark_suite_linux_64/gmsuite/probuild --par /home/lixuefei/Software/genemark_suite_linux_64/gmsuite/par_11.default  --gc --seq sequence
+GC of sequence = 52
+initial <gmhmm> model: /home/lixuefei/Software/genemark_suite_linux_64/gmsuite/heuristic_mod/heu_11_52.mod
+copy initial model to working directory
+cp /home/lixuefei/Software/genemark_suite_linux_64/gmsuite/heuristic_mod/heu_11_52.mod  itr_0.mod
+system call done
+run initial prediction
+/home/lixuefei/Software/genemark_suite_linux_64/gmsuite/gmhmmp -g 11   sequence  -m itr_0.mod  -o itr_0.lst
+system call done
+entering iteration loop
+build model: itr_1.mod for iteration: 1
+/home/lixuefei/Software/genemark_suite_linux_64/gmsuite/probuild --par /home/lixuefei/Software/genemark_suite_linux_64/gmsuite/par_11.default  --mkmod itr_1.mod --seq sequence --geneset itr_0.lst --ORDM 2 --order_non 2 --revcomp_non 1 --pre_start startseq.1 --PRE_START_WIDTH 40
+system call done
+run gibbs3 sampler
+/home/lixuefei/Software/genemark_suite_linux_64/gmsuite/Gibbs3 startseq.1 6 -o gibbs_out.1 -F -Z  -n -r -y -x -m -s 1 -w 0.01
+system call done
+make prestart model
+/home/lixuefei/Software/genemark_suite_linux_64/gmsuite/probuild --par /home/lixuefei/Software/genemark_suite_linux_64/gmsuite/par_11.default  --gibbs gibbs_out.1 --mod itr_1.mod --seq startseq.1 --log gms.log
+-34	0.026
+-33	0.033
+-32	0.022
+-31	0.020
+-30	0.025
+-29	0.027
+-28	0.025
+-27	0.022
+-26	0.026
+-25	0.029
+-24	0.030
+-23	0.031
+-22	0.033
+-21	0.031
+-20	0.024
+-19	0.021
+-18	0.021
+-17	0.021
+-16	0.021
+-15	0.020
+-14	0.023
+-13	0.031
+-12	0.030
+-11	0.028
+-10	0.019
+-9	0.026
+-8	0.044
+-7	0.054
+-6	0.065
+-5	0.043
+-4	0.028
+-3	0.034
+-2	0.029
+-1	0.020
+0	0.011
+Pos   A   C   G   T
+1 0.419 0.019 0.305 0.258
+2 0.519 0.124 0.182 0.175
+3 0.359 0.570 0.036 0.036
+4 0.047 0.289 0.632 0.032
+5 0.045 0.002 0.951 0.002
+6 0.376 0.393 0.071 0.160
+
+system call done
+prediction, iteration: 1
+/home/lixuefei/Software/genemark_suite_linux_64/gmsuite/gmhmmp -g 11   sequence  -m itr_1.mod  -o itr_1.lst -r
+system call done
+compare:
+/home/lixuefei/Software/genemark_suite_linux_64/gmsuite/probuild --par /home/lixuefei/Software/genemark_suite_linux_64/gmsuite/par_11.default  --compare --source itr_1.lst --target itr_0.lst
+compare itr_0.lst and itr_1.lst: 0.6999
+build model: itr_2.mod for iteration: 2
+/home/lixuefei/Software/genemark_suite_linux_64/gmsuite/probuild --par /home/lixuefei/Software/genemark_suite_linux_64/gmsuite/par_11.default  --mkmod itr_2.mod --seq sequence --geneset itr_1.lst --ORDM 2 --order_non 2 --revcomp_non 1 --pre_start startseq.2 --PRE_START_WIDTH 40
+system call done
+run gibbs3 sampler
+/home/lixuefei/Software/genemark_suite_linux_64/gmsuite/Gibbs3 startseq.2 6 -o gibbs_out.2 -F -Z  -n -r -y -x -m -s 1 -w 0.01
+system call done
+make prestart model
+/home/lixuefei/Software/genemark_suite_linux_64/gmsuite/probuild --par /home/lixuefei/Software/genemark_suite_linux_64/gmsuite/par_11.default  --gibbs gibbs_out.2 --mod itr_2.mod --seq startseq.2 --log gms.log
+-34	0.022
+-33	0.022
+-32	0.014
+-31	0.015
+-30	0.024
+-29	0.027
+-28	0.027
+-27	0.026
+-26	0.022
+-25	0.024
+-24	0.030
+-23	0.030
+-22	0.031
+-21	0.029
+-20	0.019
+-19	0.016
+-18	0.017
+-17	0.018
+-16	0.021
+-15	0.019
+-14	0.020
+-13	0.027
+-12	0.025
+-11	0.023
+-10	0.019
+-9	0.033
+-8	0.066
+-7	0.088
+-6	0.087
+-5	0.048
+-4	0.023
+-3	0.024
+-2	0.022
+-1	0.025
+0	0.012
+Pos   A   C   G   T
+1 0.473 0.055 0.280 0.192
+2 0.585 0.136 0.121 0.157
+3 0.402 0.558 0.014 0.026
+4 0.043 0.247 0.696 0.014
+5 0.016 0.007 0.976 0.002
+6 0.516 0.358 0.040 0.086
+
+system call done
+prediction, iteration: 2
+/home/lixuefei/Software/genemark_suite_linux_64/gmsuite/gmhmmp -g 11   sequence  -m itr_2.mod  -o itr_2.lst -r
+system call done
+compare:
+/home/lixuefei/Software/genemark_suite_linux_64/gmsuite/probuild --par /home/lixuefei/Software/genemark_suite_linux_64/gmsuite/par_11.default  --compare --source itr_2.lst --target itr_1.lst
+compare itr_1.lst and itr_2.lst: 0.9167
+build model: itr_3.mod for iteration: 3
+/home/lixuefei/Software/genemark_suite_linux_64/gmsuite/probuild --par /home/lixuefei/Software/genemark_suite_linux_64/gmsuite/par_11.default  --mkmod itr_3.mod --seq sequence --geneset itr_2.lst --ORDM 2 --order_non 2 --revcomp_non 1 --pre_start startseq.3 --PRE_START_WIDTH 40
+system call done
+run gibbs3 sampler
+/home/lixuefei/Software/genemark_suite_linux_64/gmsuite/Gibbs3 startseq.3 6 -o gibbs_out.3 -F -Z  -n -r -y -x -m -s 1 -w 0.01
+system call done
+make prestart model
+/home/lixuefei/Software/genemark_suite_linux_64/gmsuite/probuild --par /home/lixuefei/Software/genemark_suite_linux_64/gmsuite/par_11.default  --gibbs gibbs_out.3 --mod itr_3.mod --seq startseq.3 --log gms.log
+-34	0.014
+-33	0.023
+-32	0.016
+-31	0.013
+-30	0.014
+-29	0.022
+-28	0.027
+-27	0.023
+-26	0.022
+-25	0.020
+-24	0.020
+-23	0.026
+-22	0.027
+-21	0.026
+-20	0.016
+-19	0.014
+-18	0.016
+-17	0.017
+-16	0.017
+-15	0.016
+-14	0.020
+-13	0.029
+-12	0.029
+-11	0.025
+-10	0.028
+-9	0.044
+-8	0.071
+-7	0.097
+-6	0.094
+-5	0.060
+-4	0.033
+-3	0.025
+-2	0.021
+-1	0.019
+0	0.012
+Pos   A   C   G   T
+1 0.494 0.067 0.263 0.176
+2 0.603 0.150 0.121 0.126
+3 0.437 0.530 0.017 0.016
+4 0.029 0.252 0.703 0.016
+5 0.017 0.003 0.976 0.003
+6 0.535 0.356 0.047 0.062
+
+system call done
+prediction, iteration: 3
+/home/lixuefei/Software/genemark_suite_linux_64/gmsuite/gmhmmp -g 11   sequence  -m itr_3.mod  -o itr_3.lst -r
+system call done
+compare:
+/home/lixuefei/Software/genemark_suite_linux_64/gmsuite/probuild --par /home/lixuefei/Software/genemark_suite_linux_64/gmsuite/par_11.default  --compare --source itr_3.lst --target itr_2.lst
+compare itr_2.lst and itr_3.lst: 0.9622
+build model: itr_4.mod for iteration: 4
+/home/lixuefei/Software/genemark_suite_linux_64/gmsuite/probuild --par /home/lixuefei/Software/genemark_suite_linux_64/gmsuite/par_11.default  --mkmod itr_4.mod --seq sequence --geneset itr_3.lst --ORDM 2 --order_non 2 --revcomp_non 1 --pre_start startseq.4 --PRE_START_WIDTH 40
+system call done
+run gibbs3 sampler
+/home/lixuefei/Software/genemark_suite_linux_64/gmsuite/Gibbs3 startseq.4 6 -o gibbs_out.4 -F -Z  -n -r -y -x -m -s 1 -w 0.01
+system call done
+make prestart model
+/home/lixuefei/Software/genemark_suite_linux_64/gmsuite/probuild --par /home/lixuefei/Software/genemark_suite_linux_64/gmsuite/par_11.default  --gibbs gibbs_out.4 --mod itr_4.mod --seq startseq.4 --log gms.log
+-34	0.013
+-33	0.018
+-32	0.022
+-31	0.013
+-30	0.013
+-29	0.017
+-28	0.022
+-27	0.025
+-26	0.019
+-25	0.015
+-24	0.020
+-23	0.020
+-22	0.024
+-21	0.021
+-20	0.020
+-19	0.011
+-18	0.012
+-17	0.022
+-16	0.020
+-15	0.023
+-14	0.024
+-13	0.019
+-12	0.022
+-11	0.026
+-10	0.028
+-9	0.035
+-8	0.053
+-7	0.072
+-6	0.094
+-5	0.096
+-4	0.059
+-3	0.035
+-2	0.028
+-1	0.017
+0	0.015
+Pos   A   C   G   T
+1 0.587 0.159 0.117 0.136
+2 0.472 0.440 0.048 0.040
+3 0.005 0.218 0.758 0.019
+4 0.048 0.005 0.945 0.002
+5 0.591 0.364 0.007 0.038
+6 0.525 0.074 0.230 0.171
+
+system call done
+prediction, iteration: 4
+/home/lixuefei/Software/genemark_suite_linux_64/gmsuite/gmhmmp -g 11   sequence  -m itr_4.mod  -o itr_4.lst -r
+system call done
+compare:
+/home/lixuefei/Software/genemark_suite_linux_64/gmsuite/probuild --par /home/lixuefei/Software/genemark_suite_linux_64/gmsuite/par_11.default  --compare --source itr_4.lst --target itr_3.lst
+compare itr_3.lst and itr_4.lst: 0.9453
+build model: itr_5.mod for iteration: 5
+/home/lixuefei/Software/genemark_suite_linux_64/gmsuite/probuild --par /home/lixuefei/Software/genemark_suite_linux_64/gmsuite/par_11.default  --mkmod itr_5.mod --seq sequence --geneset itr_4.lst --ORDM 2 --order_non 2 --revcomp_non 1 --pre_start startseq.5 --PRE_START_WIDTH 40
+system call done
+run gibbs3 sampler
+/home/lixuefei/Software/genemark_suite_linux_64/gmsuite/Gibbs3 startseq.5 6 -o gibbs_out.5 -F -Z  -n -r -y -x -m -s 1 -w 0.01
+system call done
+make prestart model
+/home/lixuefei/Software/genemark_suite_linux_64/gmsuite/probuild --par /home/lixuefei/Software/genemark_suite_linux_64/gmsuite/par_11.default  --gibbs gibbs_out.5 --mod itr_5.mod --seq startseq.5 --log gms.log
+-34	0.017
+-33	0.025
+-32	0.025
+-31	0.015
+-30	0.016
+-29	0.016
+-28	0.016
+-27	0.018
+-26	0.020
+-25	0.019
+-24	0.023
+-23	0.022
+-22	0.024
+-21	0.016
+-20	0.015
+-19	0.013
+-18	0.011
+-17	0.016
+-16	0.016
+-15	0.019
+-14	0.018
+-13	0.017
+-12	0.024
+-11	0.026
+-10	0.026
+-9	0.029
+-8	0.049
+-7	0.078
+-6	0.106
+-5	0.106
+-4	0.061
+-3	0.034
+-2	0.025
+-1	0.017
+0	0.014
+Pos   A   C   G   T
+1 0.577 0.154 0.107 0.162
+2 0.442 0.447 0.040 0.071
+3 0.003 0.155 0.838 0.003
+4 0.071 0.033 0.895 0.002
+5 0.573 0.392 0.016 0.019
+6 0.532 0.074 0.271 0.123
+
+system call done
+prediction, iteration: 5
+/home/lixuefei/Software/genemark_suite_linux_64/gmsuite/gmhmmp -g 11   sequence  -m itr_5.mod  -o itr_5.lst -r
+system call done
+compare:
+/home/lixuefei/Software/genemark_suite_linux_64/gmsuite/probuild --par /home/lixuefei/Software/genemark_suite_linux_64/gmsuite/par_11.default  --compare --source itr_5.lst --target itr_4.lst
+compare itr_4.lst and itr_5.lst: 0.9644
+build model: itr_6.mod for iteration: 6
+/home/lixuefei/Software/genemark_suite_linux_64/gmsuite/probuild --par /home/lixuefei/Software/genemark_suite_linux_64/gmsuite/par_11.default  --mkmod itr_6.mod --seq sequence --geneset itr_5.lst --ORDM 2 --order_non 2 --revcomp_non 1 --pre_start startseq.6 --PRE_START_WIDTH 40
+system call done
+run gibbs3 sampler
+/home/lixuefei/Software/genemark_suite_linux_64/gmsuite/Gibbs3 startseq.6 6 -o gibbs_out.6 -F -Z  -n -r -y -x -m -s 1 -w 0.01
+system call done
+make prestart model
+/home/lixuefei/Software/genemark_suite_linux_64/gmsuite/probuild --par /home/lixuefei/Software/genemark_suite_linux_64/gmsuite/par_11.default  --gibbs gibbs_out.6 --mod itr_6.mod --seq startseq.6 --log gms.log
+-34	0.015
+-33	0.020
+-32	0.021
+-31	0.014
+-30	0.014
+-29	0.016
+-28	0.018
+-27	0.020
+-26	0.014
+-25	0.012
+-24	0.018
+-23	0.021
+-22	0.023
+-21	0.020
+-20	0.020
+-19	0.017
+-18	0.015
+-17	0.018
+-16	0.015
+-15	0.018
+-14	0.017
+-13	0.018
+-12	0.027
+-11	0.030
+-10	0.033
+-9	0.037
+-8	0.055
+-7	0.084
+-6	0.109
+-5	0.101
+-4	0.056
+-3	0.025
+-2	0.020
+-1	0.016
+0	0.017
+Pos   A   C   G   T
+1 0.580 0.166 0.094 0.159
+2 0.440 0.459 0.041 0.060
+3 0.021 0.168 0.795 0.017
+4 0.038 0.007 0.954 0.002
+5 0.574 0.389 0.015 0.022
+6 0.551 0.075 0.252 0.122
+
+system call done
+prediction, iteration: 6
+/home/lixuefei/Software/genemark_suite_linux_64/gmsuite/gmhmmp -g 11   sequence  -m itr_6.mod  -o itr_6.lst -r
+system call done
+compare:
+/home/lixuefei/Software/genemark_suite_linux_64/gmsuite/probuild --par /home/lixuefei/Software/genemark_suite_linux_64/gmsuite/par_11.default  --compare --source itr_6.lst --target itr_5.lst
+compare itr_5.lst and itr_6.lst: 0.9816
+build model: itr_7.mod for iteration: 7
+/home/lixuefei/Software/genemark_suite_linux_64/gmsuite/probuild --par /home/lixuefei/Software/genemark_suite_linux_64/gmsuite/par_11.default  --mkmod itr_7.mod --seq sequence --geneset itr_6.lst --ORDM 2 --order_non 2 --revcomp_non 1 --pre_start startseq.7 --PRE_START_WIDTH 40
+system call done
+run gibbs3 sampler
+/home/lixuefei/Software/genemark_suite_linux_64/gmsuite/Gibbs3 startseq.7 6 -o gibbs_out.7 -F -Z  -n -r -y -x -m -s 1 -w 0.01
+system call done
+make prestart model
+/home/lixuefei/Software/genemark_suite_linux_64/gmsuite/probuild --par /home/lixuefei/Software/genemark_suite_linux_64/gmsuite/par_11.default  --gibbs gibbs_out.7 --mod itr_7.mod --seq startseq.7 --log gms.log
+-34	0.014
+-33	0.021
+-32	0.022
+-31	0.014
+-30	0.017
+-29	0.017
+-28	0.015
+-27	0.016
+-26	0.018
+-25	0.019
+-24	0.022
+-23	0.020
+-22	0.025
+-21	0.024
+-20	0.019
+-19	0.012
+-18	0.011
+-17	0.015
+-16	0.017
+-15	0.017
+-14	0.020
+-13	0.020
+-12	0.025
+-11	0.025
+-10	0.027
+-9	0.034
+-8	0.050
+-7	0.079
+-6	0.113
+-5	0.103
+-4	0.055
+-3	0.029
+-2	0.022
+-1	0.017
+0	0.016
+Pos   A   C   G   T
+1 0.585 0.154 0.116 0.145
+2 0.443 0.460 0.048 0.050
+3 0.010 0.207 0.779 0.003
+4 0.039 0.003 0.956 0.002
+5 0.585 0.373 0.021 0.022
+6 0.544 0.091 0.229 0.137
+
+system call done
+prediction, iteration: 7
+/home/lixuefei/Software/genemark_suite_linux_64/gmsuite/gmhmmp -g 11   sequence  -m itr_7.mod  -o itr_7.lst -r
+system call done
+compare:
+/home/lixuefei/Software/genemark_suite_linux_64/gmsuite/probuild --par /home/lixuefei/Software/genemark_suite_linux_64/gmsuite/par_11.default  --compare --source itr_7.lst --target itr_6.lst
+compare itr_6.lst and itr_7.lst: 0.9816
+build model: itr_8.mod for iteration: 8
+/home/lixuefei/Software/genemark_suite_linux_64/gmsuite/probuild --par /home/lixuefei/Software/genemark_suite_linux_64/gmsuite/par_11.default  --mkmod itr_8.mod --seq sequence --geneset itr_7.lst --ORDM 2 --order_non 2 --revcomp_non 1 --pre_start startseq.8 --PRE_START_WIDTH 40
+system call done
+run gibbs3 sampler
+/home/lixuefei/Software/genemark_suite_linux_64/gmsuite/Gibbs3 startseq.8 6 -o gibbs_out.8 -F -Z  -n -r -y -x -m -s 1 -w 0.01
+system call done
+make prestart model
+/home/lixuefei/Software/genemark_suite_linux_64/gmsuite/probuild --par /home/lixuefei/Software/genemark_suite_linux_64/gmsuite/par_11.default  --gibbs gibbs_out.8 --mod itr_8.mod --seq startseq.8 --log gms.log
+-34	0.015
+-33	0.020
+-32	0.023
+-31	0.016
+-30	0.015
+-29	0.016
+-28	0.017
+-27	0.021
+-26	0.020
+-25	0.016
+-24	0.020
+-23	0.021
+-22	0.025
+-21	0.022
+-20	0.020
+-19	0.016
+-18	0.014
+-17	0.016
+-16	0.016
+-15	0.017
+-14	0.019
+-13	0.020
+-12	0.025
+-11	0.026
+-10	0.026
+-9	0.031
+-8	0.051
+-7	0.076
+-6	0.107
+-5	0.104
+-4	0.056
+-3	0.028
+-2	0.022
+-1	0.019
+0	0.018
+Pos   A   C   G   T
+1 0.583 0.170 0.108 0.138
+2 0.458 0.461 0.038 0.043
+3 0.012 0.215 0.762 0.010
+4 0.040 0.002 0.957 0.002
+5 0.575 0.367 0.019 0.040
+6 0.549 0.088 0.217 0.146
+
+system call done
+prediction, iteration: 8
+/home/lixuefei/Software/genemark_suite_linux_64/gmsuite/gmhmmp -g 11   sequence  -m itr_8.mod  -o itr_8.lst -r
+system call done
+compare:
+/home/lixuefei/Software/genemark_suite_linux_64/gmsuite/probuild --par /home/lixuefei/Software/genemark_suite_linux_64/gmsuite/par_11.default  --compare --source itr_8.lst --target itr_7.lst
+compare itr_7.lst and itr_8.lst: 0.9875
+build model: itr_9.mod for iteration: 9
+/home/lixuefei/Software/genemark_suite_linux_64/gmsuite/probuild --par /home/lixuefei/Software/genemark_suite_linux_64/gmsuite/par_11.default  --mkmod itr_9.mod --seq sequence --geneset itr_8.lst --ORDM 2 --order_non 2 --revcomp_non 1 --pre_start startseq.9 --PRE_START_WIDTH 40
+system call done
+run gibbs3 sampler
+/home/lixuefei/Software/genemark_suite_linux_64/gmsuite/Gibbs3 startseq.9 6 -o gibbs_out.9 -F -Z  -n -r -y -x -m -s 1 -w 0.01
+system call done
+make prestart model
+/home/lixuefei/Software/genemark_suite_linux_64/gmsuite/probuild --par /home/lixuefei/Software/genemark_suite_linux_64/gmsuite/par_11.default  --gibbs gibbs_out.9 --mod itr_9.mod --seq startseq.9 --log gms.log
+-34	0.016
+-33	0.019
+-32	0.021
+-31	0.015
+-30	0.015
+-29	0.020
+-28	0.021
+-27	0.018
+-26	0.015
+-25	0.013
+-24	0.021
+-23	0.024
+-22	0.028
+-21	0.024
+-20	0.024
+-19	0.016
+-18	0.013
+-17	0.012
+-16	0.013
+-15	0.015
+-14	0.017
+-13	0.017
+-12	0.024
+-11	0.025
+-10	0.028
+-9	0.035
+-8	0.052
+-7	0.074
+-6	0.106
+-5	0.104
+-4	0.061
+-3	0.026
+-2	0.021
+-1	0.017
+0	0.018
+Pos   A   C   G   T
+1 0.583 0.184 0.103 0.129
+2 0.441 0.488 0.036 0.034
+3 0.026 0.174 0.797 0.003
+4 0.052 0.005 0.941 0.002
+5 0.576 0.372 0.016 0.036
+6 0.560 0.102 0.210 0.128
+
+system call done
+prediction, iteration: 9
+/home/lixuefei/Software/genemark_suite_linux_64/gmsuite/gmhmmp -g 11   sequence  -m itr_9.mod  -o itr_9.lst -r
+system call done
+compare:
+/home/lixuefei/Software/genemark_suite_linux_64/gmsuite/probuild --par /home/lixuefei/Software/genemark_suite_linux_64/gmsuite/par_11.default  --compare --source itr_9.lst --target itr_8.lst
+compare itr_8.lst and itr_9.lst: 0.9882
+build model: itr_10.mod for iteration: 10
+/home/lixuefei/Software/genemark_suite_linux_64/gmsuite/probuild --par /home/lixuefei/Software/genemark_suite_linux_64/gmsuite/par_11.default  --mkmod itr_10.mod --seq sequence --geneset itr_9.lst --ORDM 2 --order_non 2 --revcomp_non 1 --pre_start startseq.10 --PRE_START_WIDTH 40
+system call done
+run gibbs3 sampler
+/home/lixuefei/Software/genemark_suite_linux_64/gmsuite/Gibbs3 startseq.10 6 -o gibbs_out.10 -F -Z  -n -r -y -x -m -s 1 -w 0.01
+system call done
+make prestart model
+/home/lixuefei/Software/genemark_suite_linux_64/gmsuite/probuild --par /home/lixuefei/Software/genemark_suite_linux_64/gmsuite/par_11.default  --gibbs gibbs_out.10 --mod itr_10.mod --seq startseq.10 --log gms.log
+-34	0.017
+-33	0.020
+-32	0.020
+-31	0.015
+-30	0.014
+-29	0.016
+-28	0.018
+-27	0.018
+-26	0.018
+-25	0.014
+-24	0.018
+-23	0.021
+-22	0.025
+-21	0.025
+-20	0.021
+-19	0.014
+-18	0.013
+-17	0.016
+-16	0.016
+-15	0.016
+-14	0.019
+-13	0.018
+-12	0.023
+-11	0.029
+-10	0.031
+-9	0.036
+-8	0.056
+-7	0.081
+-6	0.105
+-5	0.103
+-4	0.062
+-3	0.026
+-2	0.021
+-1	0.015
+0	0.013
+Pos   A   C   G   T
+1 0.609 0.160 0.103 0.129
+2 0.415 0.472 0.069 0.045
+3 0.060 0.168 0.755 0.017
+4 0.015 0.010 0.973 0.002
+5 0.587 0.389 0.009 0.015
+6 0.557 0.075 0.252 0.115
+
+system call done
+prediction, iteration: 10
+/home/lixuefei/Software/genemark_suite_linux_64/gmsuite/gmhmmp -g 11   sequence  -m itr_10.mod  -o itr_10.lst -r
+system call done
+compare:
+/home/lixuefei/Software/genemark_suite_linux_64/gmsuite/probuild --par /home/lixuefei/Software/genemark_suite_linux_64/gmsuite/par_11.default  --compare --source itr_10.lst --target itr_9.lst
+compare itr_9.lst and itr_10.lst: 0.9801
+Stopped iterations on maximum number: 10
+output: SRR6765728_China_hmm.mod
+cp itr_10.mod SRR6765728_China_hmm.mod
+system call done
+Create combined model: SRR6765728_China_hmm_combined.mod
+/home/lixuefei/Software/genemark_suite_linux_64/gmsuite/probuild --par /home/lixuefei/Software/genemark_suite_linux_64/gmsuite/par_11.default   --combine SRR6765728_China_hmm_combined.mod  --first itr_10.mod  --second /home/lixuefei/Software/genemark_suite_linux_64/gmsuite/heuristic_mod/heu_11_52.mod
+system call done
+output initial model: SRR6765728_China_hmm_heuristic.mod
+cp /home/lixuefei/Software/genemark_suite_linux_64/gmsuite/heuristic_mod/heu_11_52.mod SRR6765728_China_hmm_heuristic.mod
+system call done
+predict genes using combined model with motif
+/home/lixuefei/Software/genemark_suite_linux_64/gmsuite/gmhmmp -g 11  -o scaffolds.fasta.lst  /home/lixuefei/Pipeline/BacWGS/Test/2.Assemble/SRR6765728_China/scaffolds.fasta  -r -m SRR6765728_China_hmm_combined.mod 
+system call done
+rm -f sequence itr_0.mod itr_0.lst itr_1.mod startseq.1 gibbs_out.1 itr_1.lst itr_2.mod startseq.2 gibbs_out.2 itr_2.lst itr_3.mod startseq.3 gibbs_out.3 itr_3.lst itr_4.mod startseq.4 gibbs_out.4 itr_4.lst itr_5.mod startseq.5 gibbs_out.5 itr_5.lst itr_6.mod startseq.6 gibbs_out.6 itr_6.lst itr_7.mod startseq.7 gibbs_out.7 itr_7.lst itr_8.mod startseq.8 gibbs_out.8 itr_8.lst itr_9.mod startseq.9 gibbs_out.9 itr_9.lst itr_10.mod startseq.10 gibbs_out.10 itr_10.lst
+system call done
+End: Fri Jun  7 19:26:11 2019
+

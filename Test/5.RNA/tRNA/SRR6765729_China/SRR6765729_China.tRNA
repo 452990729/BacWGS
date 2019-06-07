@@ -1,0 +1,41 @@
+Sequence                        		tRNA	Bounds	tRNA	Anti	Intron Bounds	Inf	      
+Name                            	tRNA #	Begin	End 	Type	Codon	Begin	End	Score	Note
+--------                        	------	-----	------	----	-----	-----	----	------	------
+NODE_1_length_7618_cov_3.306757 	1	3244	3320	Ile	GAT	0	0	84.1	
+NODE_1_length_7618_cov_3.306757 	2	3326	3401	Ala	TGC	0	0	81.8	
+NODE_37_length_2729_cov_2.062453	1	1077	1152	Arg	CCG	0	0	73.5	
+NODE_69_length_2264_cov_5.064282	1	2105	2030	Glu	TTC	0	0	60.8	
+NODE_98_length_2046_cov_1.864892	1	1207	1132	Gln	TTG	0	0	73.8	
+NODE_108_length_2011_cov_2.476483	1	1733	1808	Val	TAC	0	0	87.5	
+NODE_108_length_2011_cov_2.476483	2	1841	1917	Asp	GTC	0	0	86.5	
+NODE_154_length_1792_cov_2.507772	1	1020	944 	Met	CAT	0	0	72.5	
+NODE_154_length_1792_cov_2.507772	2	936 	861 	Ala	GGC	0	0	78.0	
+NODE_160_length_1755_cov_2.188824	1	797 	872 	Asn	GTT	0	0	74.0	
+NODE_169_length_1716_cov_2.338952	1	605 	682 	Pro	TGG	0	0	77.8	
+NODE_169_length_1716_cov_2.338952	2	707 	783 	Arg	TCT	0	0	76.7	
+NODE_169_length_1716_cov_2.338952	3	811 	886 	His	GTG	0	0	77.0	
+NODE_184_length_1663_cov_2.110075	1	1330	1406	Pro	CGG	0	0	77.6	
+NODE_229_length_1523_cov_2.228883	1	200 	116 	Leu	TAG	0	0	70.4	
+NODE_281_length_1385_cov_2.919549	1	460 	535 	Trp	CCA	0	0	78.2	
+NODE_317_length_1323_cov_2.053628	1	1116	1206	Ser	TGA	0	0	81.5	
+NODE_380_length_1227_cov_2.000853	1	251 	175 	Pro	GGG	0	0	73.8	
+NODE_383_length_1226_cov_1.794193	1	898 	823 	Ile2	CAT	0	0	83.3	
+NODE_616_length_972_cov_2.323882	1	117 	42  	Phe	GAA	0	0	76.7	
+NODE_683_length_901_cov_2.290780	1	374 	291 	Tyr	GTA	0	0	76.6	
+NODE_683_length_901_cov_2.290780	2	260 	187 	Gly	TCC	0	0	80.1	
+NODE_683_length_901_cov_2.290780	3	177 	103 	Thr	GGT	0	0	82.7	
+NODE_712_length_883_cov_2.496377	1	728 	803 	Gly	GCC	0	0	80.1	
+NODE_712_length_883_cov_2.496377	2	837 	880 	Undet	NNN	0	0	11.1	pseudo
+NODE_713_length_883_cov_2.078502	1	588 	513 	Thr	TGT	0	0	87.1	
+NODE_786_length_823_cov_2.239583	1	593 	677 	Leu	CAA	0	0	75.8	
+NODE_1001_length_701_cov_1.611455	1	235 	321 	Leu	CAG	0	0	71.0	
+NODE_1001_length_701_cov_1.611455	2	360 	450 	Ser	GGA	0	0	79.8	
+NODE_1120_length_639_cov_2.119863	1	410 	335 	Lys	TTT	0	0	87.2	
+NODE_1281_length_558_cov_1.737575	1	138 	214 	Val	GAC	0	0	83.5	
+NODE_1358_length_527_cov_1.870763	1	282 	358 	Arg	ACG	0	0	80.8	
+NODE_1358_length_527_cov_1.870763	2	376 	450 	Glu	TTC	0	0	64.6	
+NODE_1471_length_482_cov_1.939110	1	458 	369 	Leu	TAA	0	0	72.0	
+NODE_1592_length_443_cov_2.010309	1	15  	107 	Ser	GCT	0	0	82.0	
+NODE_1644_length_424_cov_1.869919	1	24  	95  	Arg	CCT	0	0	55.9	
+NODE_2011_length_316_cov_1.754789	1	282 	206 	fMet	CAT	0	0	77.1	
+NODE_2191_length_273_cov_2.110092	1	243 	168 	Thr	CGT	0	0	74.4	

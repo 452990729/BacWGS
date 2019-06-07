@@ -1,0 +1,141 @@
+Samples = "SRR6765728_China SRR6765729_China".split()
+adapter1 = "AGATCGGAAGAGCACACGTCTGAACTCCAGTCA"
+adapter2 = "AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT"
+rule All:
+	input:
+		expand("/home/lixuefei/Pipeline/BacWGS/Test/6.Result/{sample}/{sample}.sRNA.gff", sample=Samples)
+
+rule QC:
+	input:
+		"/home/lixuefei/Pipeline/BacWGS/Test/0.RawData/{sample}.fq.gz"
+	output:
+		"/home/lixuefei/Pipeline/BacWGS/Test/1.QC/{sample}.clean.fq.gz"
+	log:
+		e = "logs/{sample}.qc.e", o = "logs/{sample}.qc.o"
+	shell:
+		"/home/lixuefei/Pipeline/BacWGS/Software/fastp -i /home/lixuefei/Pipeline/BacWGS/Test/0.RawData/{wildcards.sample}.fq.gz -o /home/lixuefei/Pipeline/BacWGS/Test/1.QC/{wildcards.sample}.clean.fq.gz --adapter_sequence {adapter1} -w {threads} -j /home/lixuefei/Pipeline/BacWGS/Test/1.QC/{wildcards.sample}_QC_report.json -h /home/lixuefei/Pipeline/BacWGS/Test/1.QC/{wildcards.sample}_QC_report.html"
+
+rule Assemble:
+	input:
+		"/home/lixuefei/Pipeline/BacWGS/Test/1.QC/{sample}.clean.fq.gz"
+	output:
+		"/home/lixuefei/Pipeline/BacWGS/Test/2.Assemble/{sample}/scaffolds.fasta"
+	log:
+		e = "logs/{sample}.assemble.e", o = "logs/{sample}.assemble.o"
+	threads: 5
+	shell:
+		"/home/lixuefei/Pipeline/BacWGS/Software/spades.py -s {input} -t {threads} -o /home/lixuefei/Pipeline/BacWGS/Test/2.Assemble/{wildcards.sample}/"
+
+rule GenePredict1:
+	input:
+		"/home/lixuefei/Pipeline/BacWGS/Test/2.Assemble/{sample}/scaffolds.fasta"
+	output:
+		"/home/lixuefei/Pipeline/BacWGS/Test/3.GenePredict/{sample}/{sample}_hmm.mod"
+	log:
+		e = "logs/{sample}.gp1.e", o = "logs/{sample}.gp1.o"
+	threads: 1
+	shell:
+		"cd /home/lixuefei/Pipeline/BacWGS/Test/3.GenePredict/{wildcards.sample}/;"
+		"/home/lixuefei/Pipeline/BacWGS/Software/gmsuite/gmsn.pl -name {wildcards.sample} -clean -gcode 11 -shape partial --combine --prok {input}"
+
+rule GenePredict2:
+	input:
+		A = "/home/lixuefei/Pipeline/BacWGS/Test/3.GenePredict/{sample}/{sample}_hmm.mod", B = "/home/lixuefei/Pipeline/BacWGS/Test/2.Assemble/{sample}/scaffolds.fasta"
+	output:
+		"/home/lixuefei/Pipeline/BacWGS/Test/3.GenePredict/{sample}/{sample}.gmhmmp"
+	log:
+		e = "logs/{sample}.gp2.e", o = "logs/{sample}.gp2.o"
+	threads: 1
+	shell:
+		"cd /home/lixuefei/Pipeline/BacWGS/Test/3.GenePredict/{wildcards.sample}/;"
+		"/home/lixuefei/Pipeline/BacWGS/Software/gmsuite/gmhmmp -m {input.A} -o {output} -a -d -p 1 -f L {input.B}"
+
+rule GenePredict3:
+	input:
+		A = "/home/lixuefei/Pipeline/BacWGS/Test/3.GenePredict/{sample}/{sample}.gmhmmp", B = "/home/lixuefei/Pipeline/BacWGS/Test/2.Assemble/{sample}/scaffolds.fasta"
+	output:
+		A = "/home/lixuefei/Pipeline/BacWGS/Test/3.GenePredict/{sample}/{sample}.gmhmmp.cds", B = "/home/lixuefei/Pipeline/BacWGS/Test/3.GenePredict/{sample}/{sample}.gmhmmp.pep", C = "/home/lixuefei/Pipeline/BacWGS/Test/3.GenePredict/{sample}/{sample}.gmhmmp.gff"
+	log:
+		e = "logs/{sample}.gp3.e", o = "logs/{sample}.gp3.o"
+	threads: 1
+	shell:
+		"cd /home/lixuefei/Pipeline/BacWGS/Test/3.GenePredict/{wildcards.sample}/;"
+		"/home/lixuefei/Pipeline/BacWGS/Lib/genemark_convert_2.pl --final {wildcards.sample}GM --gcode 11 --log --verbose {input.A} {input.B}"
+
+rule Repeat1:
+	input:
+		"/home/lixuefei/Pipeline/BacWGS/Test/2.Assemble/{sample}/scaffolds.fasta"
+	output:
+		A = "/home/lixuefei/Pipeline/BacWGS/Test/4.Repeat/{sample}/scaffolds.fasta.out", B = "/home/lixuefei/Pipeline/BacWGS/Test/4.Repeat/{sample}/scaffolds.fasta.out.gff"
+	log:
+		e = "logs/{sample}.rp1.e", o = "logs/{sample}.rp1.o"
+	threads: 2
+	shell:
+		"cd /home/lixuefei/Pipeline/BacWGS/Test/4.Repeat/{wildcards.sample}/;"
+		"/home/lixuefei/Pipeline/BacWGS/Software/RepeatMasker -nolow -no_is -norna -engine wublast -parallel {threads} -lib /home/lixuefei/Pipeline/BacWGS/Database/RepeatmaskLib/RepBase.fasta {input} -dir /home/lixuefei/Pipeline/BacWGS/Test/4.Repeat/{wildcards.sample}/;"
+		"/home/lixuefei/Pipeline/BacWGS/Lib/repeat_to_gff.pl --prefix {wildcards.sample} {output.A}"
+
+rule Repeat2:
+	input:
+		"/home/lixuefei/Pipeline/BacWGS/Test/2.Assemble/{sample}/scaffolds.fasta"
+	output:
+		A = "/home/lixuefei/Pipeline/BacWGS/Test/4.Repeat/{sample}/scaffolds.fasta.2.7.7.80.10.50.2000.dat", B = "/home/lixuefei/Pipeline/BacWGS/Test/4.Repeat/{sample}/scaffolds.fasta.2.7.7.80.10.50.2000.dat.gff"
+	log:
+		e = "logs/{sample}.rp2.e", o = "logs/{sample}.rp2.o"
+	shell:
+		"cd /home/lixuefei/Pipeline/BacWGS/Test/4.Repeat/{wildcards.sample};"
+		"/home/lixuefei/Pipeline/BacWGS/Software/trf {input} 2 7 7 80 10 50 2000 -d -h;"
+		"/home/lixuefei/Pipeline/BacWGS/Lib/repeat_to_gff.pl --prefix {wildcards.sample} {output.A}"
+
+rule rRNA:
+	input:
+		"/home/lixuefei/Pipeline/BacWGS/Test/2.Assemble/{sample}/scaffolds.fasta"
+	output:
+		A = "/home/lixuefei/Pipeline/BacWGS/Test/5.RNA/rRNA/{sample}/{sample}.rRNAd.gff", B = "/home/lixuefei/Pipeline/BacWGS/Test/5.RNA/rRNA/{sample}/{sample}.rRNAd.fa"
+	log:
+		e = "logs/{sample}.rRNA.e", o = "logs/{sample}.rRNA.o"
+	shell:
+		"cd /home/lixuefei/Pipeline/BacWGS/Test/5.RNA/rRNA/{wildcards.sample}/;"
+		"/home/lixuefei/Pipeline/BacWGS/Software/perl /home/lixuefei/Pipeline/BacWGS/Software/rnammer-1.2/rnammer -S bac -m tsu,lsu,ssu -gff {output.A} -f {output.B} {input};"
+		"/home/lixuefei/Pipeline/BacWGS/Lib/HandlerRNA.py /home/lixuefei/Pipeline/BacWGS/Test/5.RNA/rRNA/{wildcards.sample}"
+
+rule tRNA:
+	input:
+		"/home/lixuefei/Pipeline/BacWGS/Test/2.Assemble/{sample}/scaffolds.fasta"
+	output:
+		A = "/home/lixuefei/Pipeline/BacWGS/Test/5.RNA/tRNA/{sample}/{sample}.tRNA", B = "/home/lixuefei/Pipeline/BacWGS/Test/5.RNA/tRNA/{sample}/{sample}.tRNA.structure", C = "/home/lixuefei/Pipeline/BacWGS/Test/5.RNA/tRNA/{sample}/{sample}.tRNA.gff"
+	log:
+		e = "logs/{sample}.tRNA.e", o = "logs/{sample}.tRNA.o"
+	shell:
+		"cd /home/lixuefei/Pipeline/BacWGS/Test/5.RNA/tRNA/{wildcards.sample}/;"
+		"/home/lixuefei/Pipeline/BacWGS/Software/tRNAscan-SE -B -o {output.A} -f {output.B} {input};"
+		"/home/lixuefei/Pipeline/BacWGS/Lib/tRNAscan_to_gff3.pl --prefix {wildcards.sample} {output.A} {output.B} > {output.C}"
+
+rule sRNA:
+	input:
+		"/home/lixuefei/Pipeline/BacWGS/Test/2.Assemble/{sample}/scaffolds.fasta"
+	output:
+		A = "/home/lixuefei/Pipeline/BacWGS/Test/5.RNA/sRNA/{sample}/{sample}.tblout", B = "/home/lixuefei/Pipeline/BacWGS/Test/5.RNA/sRNA/{sample}/{sample}.cmscan"
+	log:
+		e = "logs/{sample}.sRNA.e", o = "logs/{sample}.sRNA.o"
+	shell:
+		"cd /home/lixuefei/Pipeline/BacWGS/Test/5.RNA/sRNA/{wildcards.sample}/;"
+		"/home/lixuefei/Pipeline/BacWGS/Software/cmscan -Z `/home/lixuefei/Pipeline/BacWGS/Software/seqkit stats -T {input} | awk '{{if(NR==2) print int($5/2000000)+1}}'` --cut_ga --rfam --nohmmonly --tblout {output.A} --fmt 2 --clanin /home/lixuefei/Pipeline/BacWGS/Database/Rfam2019/Rfam.clanin /home/lixuefei/Pipeline/BacWGS/Database/Rfam2019/Rfam.cm {input} > {output.B};"
+
+rule TotalGff:
+	input:
+		cds = "/home/lixuefei/Pipeline/BacWGS/Test/3.GenePredict/{sample}/{sample}.gmhmmp.cds",                         pep = "/home/lixuefei/Pipeline/BacWGS/Test/3.GenePredict/{sample}/{sample}.gmhmmp.pep",                         gene = "/home/lixuefei/Pipeline/BacWGS/Test/3.GenePredict/{sample}/{sample}.gmhmmp.gff",                         repbase = "/home/lixuefei/Pipeline/BacWGS/Test/4.Repeat/{sample}/scaffolds.fasta.out.gff",                         trf = "/home/lixuefei/Pipeline/BacWGS/Test/4.Repeat/{sample}/scaffolds.fasta.2.7.7.80.10.50.2000.dat.gff",                         rRNA_denovo = "/home/lixuefei/Pipeline/BacWGS/Test/5.RNA/rRNA/{sample}/{sample}.rRNAd.gff",                         tRNA = "/home/lixuefei/Pipeline/BacWGS/Test/5.RNA/tRNA/{sample}/{sample}.tRNA.gff",                         sRNA = "/home/lixuefei/Pipeline/BacWGS/Test/5.RNA/sRNA/{sample}/{sample}.tblout"
+	output:
+		cds = "/home/lixuefei/Pipeline/BacWGS/Test/6.Result/{sample}/{sample}.cds",                          pep = "/home/lixuefei/Pipeline/BacWGS/Test/6.Result/{sample}/{sample}.pep",                          gene = "/home/lixuefei/Pipeline/BacWGS/Test/6.Result/{sample}/{sample}.gff",                          repbase = "/home/lixuefei/Pipeline/BacWGS/Test/6.Result/{sample}/{sample}.repbase.gff",                          trf = "/home/lixuefei/Pipeline/BacWGS/Test/6.Result/{sample}/{sample}.trf.gff",                          rRNA_denovo = "/home/lixuefei/Pipeline/BacWGS/Test/6.Result/{sample}/{sample}.rRNA.gff",                          tRNA = "/home/lixuefei/Pipeline/BacWGS/Test/6.Result/{sample}/{sample}.tRNA.gff",                          sRNA = "/home/lixuefei/Pipeline/BacWGS/Test/6.Result/{sample}/{sample}.sRNA.gff"
+	log:
+		e = "logs/{sample}.result.e", o = "logs/{sample}.result.o"
+	shell:
+		"ln -s {input.cds} {output.cds};"
+		"ln -s {input.pep} {output.pep};"
+		"ln -s {input.gene} {output.gene};"
+		"ln -s {input.repbase} {output.repbase};"
+		"ln -s {input.trf} {output.trf};"
+		"ln -s {input.rRNA_denovo} {output.rRNA_denovo};"
+		"ln -s {input.tRNA} {output.tRNA};"
+		"ln -s {input.sRNA} {output.sRNA}"
+

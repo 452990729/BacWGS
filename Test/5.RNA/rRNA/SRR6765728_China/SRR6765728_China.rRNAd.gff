@@ -1,0 +1,10 @@
+##gff-version2
+##source-version RNAmmer-1.2
+##date 2019-06-07
+##Type DNA
+# seqname           source                      feature     start      end   score   +/-  frame  attribute
+# ---------------------------------------------------------------------------------------------------------
+NODE_5_length_6840_cov_3.507148	RNAmmer-1.2	rRNA	6440	6552	91.0	+	.	5s_rRNA
+NODE_5_length_6840_cov_3.507148	RNAmmer-1.2	rRNA	3452	6341	3532.5	+	.	23s_rRNA
+NODE_5_length_6840_cov_3.507148	RNAmmer-1.2	rRNA	1312	2840	1875.9	+	.	16s_rRNA
+# ---------------------------------------------------------------------------------------------------------
