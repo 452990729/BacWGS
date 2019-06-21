@@ -1,0 +1,60 @@
+#!/usr/bin/env python2
+
+
+import sys
+import re
+import os
+import numpy as np
+import pandas as pd
+from HTSeq import FastaReader
+
+
+
+def MakeAllSample(list_in, list_all, label):
+    list_out = []
+    set_clip = set([re.split('_', m)[0] for m in list_in])
+    for i in list_all:
+        if i not in set_clip:
+            list_out.append(0)
+        else:
+            list_out.append(1)
+    return pd.DataFrame(np.array(list_out).reshape(1, len(list_out)),\
+                        columns=list_all, index=[label+'_'+list_in[0],])
+
+def HandleData(dir_in, pd_in, Cluster):
+    Input = os.path.join(dir_in, 'output.fa')
+    list_all = [i for i in pd_in.columns]
+    dict_fa = {}
+    for item in FastaReader(Input):
+        seq = str(item.seq)
+        if seq not in dict_fa:
+            dict_fa[seq] = [item.name,]
+        else:
+            dict_fa[seq] += [item.name,]
+    for seq in dict_fa:
+        pd_out = MakeAllSample(dict_fa[seq], list_all, Cluster)
+        pd_in = pd_in.append(pd_out)
+    return pd_in
+
+def SelectAll(path_in, infile, outfile):
+    Y = pd.read_csv(infile, sep='\t', header=0, index_col=0)
+    list_all = [i for i in Y.index]
+    pd_all = pd.DataFrame(columns=list_all)
+    root, dirs, files = next(os.walk(path_in))
+    n = 1
+    for dr in dirs:
+        print n
+        pd_all = HandleData(os.path.join(root, dr), pd_all, 'Cluster'+str(n))
+        n += 1
+    pd_all.T.to_csv(outfile, sep='\t', index=True, header=True)
+
+def main():
+    SelectAll(sys.argv[1], sys.argv[2], sys.argv[3])
+
+
+if __name__ == '__main__':
+    main()
+
+
+
+

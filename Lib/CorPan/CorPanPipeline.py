@@ -35,7 +35,7 @@ def WriteShell(in_file, outpath):
     out_cluster = open(out_cluster_shell, 'w')
     out_cluster.write('cd {}\n'.format(ClusterPath))
     out_cluster.write('{} {} {} all_gene.fa 0\n'.format(PERL, CorPan_get_all, in_file))
-    out_cluster.write('{} -i all_gene.fa -o Sample -c 0.5 -n 3 -p 1 -T 4 -g 1 -d 0 -s 0.7 -aL 0.7 -aS 0.7\n'.\
+    out_cluster.write('{} -i all_gene.fa -o Sample -M 0 -c 0.5 -n 3 -p 1 -T 4 -g 1 -d 0 -s 0.7 -aL 0.7 -aS 0.7\n'.\
                      format(CDHIT))
     out_cluster.write('mv Sample Sample.fa')
     out_cluster.close()

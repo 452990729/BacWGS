@@ -177,13 +177,13 @@ def WriteSnake(argv, list_ob, Paired, lb):
         QC.UpdateInput('A = "'+outpath+'/0.RawData/{sample}_1'+lb+'", B = "'+outpath+'/0.RawData/{sample}_2'+lb+'"')
         QC.UpdateOutput('A = "'+outpath+'/1.QC/{sample}_1.clean.fastq.gz", B = "'+outpath+'/1.QC/{sample}_2.clean.fastq.gz"')
         QC.UpdateThreads('2')
-        QC.UpdateLog('e = "logs/{sample}.qc.e", o = "logs/{sample}.qc.o"')
+        QC.UpdateLog('e = "'+outpath+'logs/{sample}.qc.e", o = "'+outpath+'logs/{sample}.qc.o"')
         QC.UpdateShell(r'"'+FASTP+r' -i {input.A} -o {output.A} -I {input.B} -O {output.B} --adapter_sequence {adapter1} --adapter_sequence_r2 {adapter2} -w {threads} -j '+outpath+'/1.QC/{wildcards.sample}_QC_report.json -h '+outpath+'/1.QC/{wildcards.sample}_QC_report.html 1>{log.o} 2>{log.e}"')
     else:
         QC.UpdateInput('"'+outpath+'/0.RawData/{sample}'+lb+'"')
         QC.UpdateOutput('"'+outpath+'/1.QC/{sample}.clean.fastq.gz"')
         QC.UpdateThreads('2')
-        QC.UpdateLog('e = "logs/{sample}.qc.e", o = "logs/{sample}.qc.o"')
+        QC.UpdateLog('e = "'+outpath+'logs/{sample}.qc.e", o = "'+outpath+'logs/{sample}.qc.o"')
         QC.UpdateShell(r'"'+FASTP+r' -i {input} -o {output}  --adapter_sequence {adapter1} -w {threads} -j '+outpath+'/1.QC/{wildcards.sample}_QC_report.json -h '+outpath+'/1.QC/{wildcards.sample}_QC_report.html 1>{log.o} 2>{log.e}"')
     QC.WriteStr(snakefile)
 
@@ -193,13 +193,13 @@ def WriteSnake(argv, list_ob, Paired, lb):
         Assemble.UpdateInput('A = "'+outpath+'/1.QC/{sample}_1.clean.fastq.gz", B = "'+outpath+'/1.QC/{sample}_2.clean.fastq.gz"')
         Assemble.UpdateOutput('"'+outpath+'/2.Assemble/{sample}/scaffolds.fasta"')
         Assemble.UpdateThreads('5')
-        Assemble.UpdateLog('e = "logs/{sample}.align.e", o = "logs/{sample}.align.o"')
+        Assemble.UpdateLog('e = "'+outpath+'logs/{sample}.align.e", o = "'+outpath+'logs/{sample}.align.o"')
         Assemble.UpdateShell(r'"'+SPADE+r' -1 {input.A} -2 {input.B} -t {threads} -o '+outpath+'/2.Assemble/{wildcards.sample}/ 1>{log.o} 2>{log.e}"')
     else:
         Assemble.UpdateInput('"'+outpath+'/1.QC/{sample}.clean.fq.gz"')
         Assemble.UpdateOutput('"'+outpath+'/2.Assemble/{sample}/scaffolds.fasta"')
         Assemble.UpdateThreads('5')
-        Assemble.UpdateLog('e = "logs/{sample}.assemble.e", o = "logs/{sample}.assemble.o"')
+        Assemble.UpdateLog('e = "'+outpath+'logs/{sample}.assemble.e", o = "'+outpath+'logs/{sample}.assemble.o"')
         Assemble.UpdateShell(r'"'+SPADE+r' -s {input} -t {threads} -o '+outpath+'/2.Assemble/{wildcards.sample}/ 1>{log.o} 2>{log.e}"')
     Assemble.WriteStr(snakefile)
 
@@ -208,7 +208,7 @@ def WriteSnake(argv, list_ob, Paired, lb):
     GenePredict1.UpdateInput('"'+outpath+'/2.Assemble/{sample}/scaffolds.fasta"')
     GenePredict1.UpdateOutput('"'+outpath+'/3.GenePredict/{sample}/{sample}_hmm.mod"')
     GenePredict1.UpdateThreads('1')
-    GenePredict1.UpdateLog('e = "logs/{sample}.gp1.e", o = "logs/{sample}.gp1.o"')
+    GenePredict1.UpdateLog('e = "'+outpath+'logs/{sample}.gp1.e", o = "'+outpath+'logs/{sample}.gp1.o"')
     GenePredict1.UpdateShell('"cd '+outpath+'/3.GenePredict/{wildcards.sample}/;"\n\t\t"'+GMSN+' -name {wildcards.sample} -clean -gcode 11 -shape partial --combine --'+spe+r' {input} 1>{log.o} 2>{log.e}"')
     GenePredict1.WriteStr(snakefile)
 
@@ -217,7 +217,7 @@ def WriteSnake(argv, list_ob, Paired, lb):
     GenePredict2.UpdateInput('A = "'+outpath+'/3.GenePredict/{sample}/{sample}_hmm.mod", B = "'+outpath+'/2.Assemble/{sample}/scaffolds.fasta"')
     GenePredict2.UpdateOutput('"'+outpath+'/3.GenePredict/{sample}/{sample}.gmhmmp"')
     GenePredict2.UpdateThreads('1')
-    GenePredict2.UpdateLog('e = "logs/{sample}.gp2.e", o = "logs/{sample}.gp2.o"')
+    GenePredict2.UpdateLog('e = "'+outpath+'logs/{sample}.gp2.e", o = "'+outpath+'logs/{sample}.gp2.o"')
     GenePredict2.UpdateShell('"cd '+outpath+'/3.GenePredict/{wildcards.sample}/;"\n\t\t"'+GMHMMP+' -m {input.A} -o {output} -a -d -p 1 -f L {input.B} 1>{log.o} 2>{log.e}"')
     GenePredict2.WriteStr(snakefile)
 
@@ -226,7 +226,7 @@ def WriteSnake(argv, list_ob, Paired, lb):
     GenePredict3.UpdateInput('A = "'+outpath+'/3.GenePredict/{sample}/{sample}.gmhmmp", B = "'+outpath+'/2.Assemble/{sample}/scaffolds.fasta"')
     GenePredict3.UpdateOutput('A = "'+outpath+'/3.GenePredict/{sample}/{sample}.gmhmmp.cds", B = "'+outpath+'/3.GenePredict/{sample}/{sample}.gmhmmp.pep", C = "'+outpath+'/3.GenePredict/{sample}/{sample}.gmhmmp.gff"')
     GenePredict3.UpdateThreads('1')
-    GenePredict3.UpdateLog('e = "logs/{sample}.gp3.e", o = "logs/{sample}.gp3.o"')
+    GenePredict3.UpdateLog('e = "'+outpath+'logs/{sample}.gp3.e", o = "'+outpath+'logs/{sample}.gp3.o"')
     GenePredict3.UpdateShell('"cd '+outpath+'/3.GenePredict/{wildcards.sample}/;"\n\t\t"'+genemark_convert_2+' --final {wildcards.sample}GM --gcode 11 --log --verbose {input.A} {input.B} 1>{log.o} 2>{log.e}"')
     GenePredict3.WriteStr(snakefile)
 
@@ -235,7 +235,7 @@ def WriteSnake(argv, list_ob, Paired, lb):
     Repeat1.UpdateInput('"'+outpath+'/2.Assemble/{sample}/scaffolds.fasta"')
     Repeat1.UpdateOutput('A = "'+outpath+'/4.Repeat/{sample}/scaffolds.fasta.out", B = "'+outpath+'/4.Repeat/{sample}/scaffolds.fasta.out.gff"')
     Repeat1.UpdateThreads('2')
-    Repeat1.UpdateLog('e = "logs/{sample}.rp1.e", o = "logs/{sample}.rp1.o"')
+    Repeat1.UpdateLog('e = "'+outpath+'logs/{sample}.rp1.e", o = "'+outpath+'logs/{sample}.rp1.o"')
     Repeat1.UpdateShell('"cd '+outpath+'/4.Repeat/{wildcards.sample}/;"\n\t\t"'+REPEATMASKER+' -nolow -no_is -norna -engine wublast -parallel {threads} -lib '+RepeatmaskLib+' {input} -dir '+outpath+'/4.Repeat/{wildcards.sample}/;"\n\t\t"'+repeat_to_gff+' --prefix {wildcards.sample} {output.A} 1>{log.o} 2>{log.e}"')
     Repeat1.WriteStr(snakefile)
 
@@ -243,7 +243,7 @@ def WriteSnake(argv, list_ob, Paired, lb):
     Repeat2 = Snake('Repeat2')
     Repeat2.UpdateInput('"'+outpath+'/2.Assemble/{sample}/scaffolds.fasta"')
     Repeat2.UpdateOutput('A = "'+outpath+'/4.Repeat/{sample}/scaffolds.fasta.2.7.7.80.10.50.2000.dat", B = "'+outpath+'/4.Repeat/{sample}/scaffolds.fasta.2.7.7.80.10.50.2000.dat.gff"')
-    Repeat2.UpdateLog('e = "logs/{sample}.rp2.e", o = "logs/{sample}.rp2.o"')
+    Repeat2.UpdateLog('e = "'+outpath+'logs/{sample}.rp2.e", o = "'+outpath+'logs/{sample}.rp2.o"')
     Repeat2.UpdateShell('"cd '+outpath+'/4.Repeat/{wildcards.sample};"\n\t\t"'+TRF+' {input} 2 7 7 80 10 50 2000 -d -h;"\n\t\t"'+repeat_to_gff+' --prefix {wildcards.sample} {output.A} 1>{log.o} 2>{log.e}"')
     Repeat2.WriteStr(snakefile)
 
@@ -251,7 +251,7 @@ def WriteSnake(argv, list_ob, Paired, lb):
     rRNA = Snake('rRNA')
     rRNA.UpdateInput('"'+outpath+'/2.Assemble/{sample}/scaffolds.fasta"')
     rRNA.UpdateOutput('A = "'+outpath+'/5.RNA/rRNA/{sample}/{sample}.rRNAd.gff", B = "'+outpath+'/5.RNA/rRNA/{sample}/{sample}.rRNAd.fa"')
-    rRNA.UpdateLog('e = "logs/{sample}.rRNA.e", o = "logs/{sample}.rRNA.o"')
+    rRNA.UpdateLog('e = "'+outpath+'logs/{sample}.rRNA.e", o = "'+outpath+'logs/{sample}.rRNA.o"')
     rRNA.UpdateShell('"cd '+outpath+'/5.RNA/rRNA/{wildcards.sample}/;"\n\t\t"'+PERL+' '+RNAMMER+' -S '+spr+' -m tsu,lsu,ssu -gff {output.A} -f {output.B} {input};"\n\t\t"'+HandlerRNA+' '+outpath+'/5.RNA/rRNA/{wildcards.sample} 1>{log.o} 2>{log.e}"')
     rRNA.WriteStr(snakefile)
 
@@ -259,7 +259,7 @@ def WriteSnake(argv, list_ob, Paired, lb):
     tRNA = Snake('tRNA')
     tRNA.UpdateInput('"'+outpath+'/2.Assemble/{sample}/scaffolds.fasta"')
     tRNA.UpdateOutput('A = "'+outpath+'/5.RNA/tRNA/{sample}/{sample}.tRNA", B = "'+outpath+'/5.RNA/tRNA/{sample}/{sample}.tRNA.structure", C = "'+outpath+'/5.RNA/tRNA/{sample}/{sample}.tRNA.gff"')
-    tRNA.UpdateLog('e = "logs/{sample}.tRNA.e", o = "logs/{sample}.tRNA.o"')
+    tRNA.UpdateLog('e = "'+outpath+'logs/{sample}.tRNA.e", o = "'+outpath+'logs/{sample}.tRNA.o"')
     tRNA.UpdateShell('"cd '+outpath+'/5.RNA/tRNA/{wildcards.sample}/;"\n\t\t"'+TRNASCAN+' -'+spt+' -o {output.A} -f {output.B} {input};"\n\t\t"'+tRNAscan_to_gff3+' --prefix {wildcards.sample} {output.A} {output.B} > {output.C} 1>{log.o} 2>{log.e}"')
     tRNA.WriteStr(snakefile)
 
@@ -267,7 +267,7 @@ def WriteSnake(argv, list_ob, Paired, lb):
     sRNA = Snake('sRNA')
     sRNA.UpdateInput('"'+outpath+'/2.Assemble/{sample}/scaffolds.fasta"')
     sRNA.UpdateOutput('A = "'+outpath+'/5.RNA/sRNA/{sample}/{sample}.tblout", B = "'+outpath+'/5.RNA/sRNA/{sample}/{sample}.cmscan"')
-    sRNA.UpdateLog('e = "logs/{sample}.sRNA.e", o = "logs/{sample}.sRNA.o"')
+    sRNA.UpdateLog('e = "'+outpath+'logs/{sample}.sRNA.e", o = "'+outpath+'logs/{sample}.sRNA.o"')
     sRNA.UpdateShell('"cd '+outpath+'/5.RNA/sRNA/{wildcards.sample}/;"\n\t\t"'+CMSCAN+' -Z `'+SEQKIT+' stats -T {input} | awk \'{{if(NR==2) print int($5/2000000)+1}}\'` --cut_ga --rfam --nohmmonly --tblout {output.A} --fmt 2 --clanin '+Rfam+'/Rfam.clanin '+Rfam+'/Rfam.cm {input} > {output.B} 1>{log.o} 2>{log.e}"')
     sRNA.WriteStr(snakefile)
 
@@ -289,7 +289,7 @@ def WriteSnake(argv, list_ob, Paired, lb):
                           rRNA_denovo = "'+outpath+'/6.Result/{sample}/{sample}.rRNA.gff",\
                           tRNA = "'+outpath+'/6.Result/{sample}/{sample}.tRNA.gff",\
                           sRNA = "'+outpath+'/6.Result/{sample}/{sample}.sRNA.gff"')
-    TotalGff.UpdateLog('e = "logs/{sample}.result.e", o = "logs/{sample}.result.o"')
+    TotalGff.UpdateLog('e = "'+outpath+'logs/{sample}.result.e", o = "'+outpath+'logs/{sample}.result.o"')
     TotalGff.UpdateShell('"ln -s {input.cds} {output.cds};"\n\t\t"ln -s {input.pep} {output.pep};"\n\t\t"ln -s {input.gene} {output.gene};"\n\t\t"ln -s {input.repbase} {output.repbase};"\n\t\t"ln -s {input.trf} {output.trf};"\n\t\t"ln -s {input.rRNA_denovo} {output.rRNA_denovo};"\n\t\t"ln -s {input.tRNA} {output.tRNA};"\n\t\t"ln -s {input.sRNA} {output.sRNA}"')
     TotalGff.WriteStr(snakefile)
 
