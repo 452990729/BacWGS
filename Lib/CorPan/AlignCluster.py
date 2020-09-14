@@ -25,7 +25,7 @@ def ReadFasta(file_in):
         for line in f:
             line = line.strip()
             if m%2 == 0:
-                label = '_'.join(re.split('_', line.lstrip('>'))[:2])
+                label = re.split('__', line.lstrip('>'))[0]
             elif m%2 == 1:
                 dict_fa[label] = line
             m += 1

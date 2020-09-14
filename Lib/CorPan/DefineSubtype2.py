@@ -39,8 +39,8 @@ def MakeCluster(file_in, dict_fa, outpath):
 
 def MakeAllSample(list_in, list_all, label):
     list_out = []
-#    set_clip = set([re.split('_', m)[0] for m in list_in])
-    set_clip = set([re.findall('fig\|(\d+\.\d+)\.peg', m)[0] for m in list_in])
+    set_clip = set([re.split('_', m)[0] for m in list_in])
+#    set_clip = set([re.findall('fig\|(\d+\.\d+)\.peg', m)[0] for m in list_in])
     for i in list_all:
         if i not in set_clip:
             list_out.append(0)

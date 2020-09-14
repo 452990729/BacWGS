@@ -39,8 +39,8 @@ def MakeCluster(file_in, dict_fa, outpath):
 
 def MakeAllSample(list_in, list_all, label):
     list_out = []
-#    set_clip = set([re.split('_', m)[0] for m in list_in])
-    set_clip = set([re.findall('fig\|(\d+\.\d+)\.peg', m)[0] for m in list_in])
+    set_clip = set([re.split('_', m)[0] for m in list_in])
+#    set_clip = set([re.findall('fig\|(\d+\.\d+)\.peg', m)[0] for m in list_in])
     for i in list_all:
         if i not in set_clip:
             list_out.append(0)
@@ -49,8 +49,7 @@ def MakeAllSample(list_in, list_all, label):
     return pd.DataFrame(np.array(list_out).reshape(1, len(list_out)),\
                         columns=list_all, index=[label+'_'+list_in[0],])
 
-def HandleData(file_in, pd_in):
-    list_all = [i for i in pd_in.columns]
+def HandleData(file_in, list_all, outfile):
     dict_fa = {}
     Cluster = os.path.basename(file_in).strip('.fa')
     for item in FastaReader(file_in):
@@ -62,16 +61,19 @@ def HandleData(file_in, pd_in):
     n = 1
     for seq in dict_fa:
         pd_out = MakeAllSample(dict_fa[seq], list_all, Cluster)
-        pd_in = pd_in.append(pd_out)
-    return pd_in
+        for index in pd_out.index:
+            outfile.write(index+'\t'+'\t'.join([str(i) for i in pd_out.loc[index,:]])+'\n')
 
 def SelectAll(path_in, list_all, outpath):
-    outfile = os.path.join(outpath, 'SubType.txt')
-    pd_all = pd.DataFrame(columns=list_all)
+    outfile = open(os.path.join(outpath, 'tmp.txt'), 'w')
+    outfile.write(' \t'+'\t'.join(list_all)+'\n')
     root, dirs, files = next(os.walk(path_in))
     for fl in files:
-        pd_all = HandleData(os.path.join(root, fl), pd_all)
-    pd_all.T.to_csv(outfile, sep='\t', index=True, header=True)
+        HandleData(os.path.join(root, fl), list_all, outfile)
+    outfile.close()
+    pd_out = pd.read_csv(os.path.join(outpath, 'tmp.txt'), sep='\t', index_col=0, header=0)
+    pd_out.T.to_csv(os.path.join(outpath, 'SubType.txt'), sep='\t', header=True, index=True)
+    os.system('rm {}'.format(os.path.join(outpath, 'tmp.txt')))
 
 def main():
     RawPep = sys.argv[1]
