@@ -1,1 +1,1 @@
-/home/lixuefei/Software/anaconda2/envs/spade-3.13.1/bin/spades.py
+/mnt/dfc_data1/software/anaconda2/envs/spades-3.14.1/bin/spades.py
